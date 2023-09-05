@@ -59,7 +59,7 @@ class _DealOfDayState extends State<DealOfDay> {
                     Container(
                       padding: EdgeInsets.only(left: 15),
                       alignment: Alignment.topLeft,
-                      child: Text('\$${product!.price}',
+                      child: Text('\₹${product!.price}',
                           style: TextStyle(
                               fontSize: 18,
                               color: Colors.red,

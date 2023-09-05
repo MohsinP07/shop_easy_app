@@ -37,6 +37,14 @@ const productSchema = mongoose.Schema({
         require: true
     },
 
+    sellerId: {
+        type: String,
+    },
+
+    sellerShopName: {
+        type: String,
+    },
+
     ratings: [
         ratingSchema
     ]
@@ -44,4 +52,4 @@ const productSchema = mongoose.Schema({
 });
 
 const Product = mongoose.model('Product', productSchema);
-module.exports = {Product, productSchema};
+module.exports = { Product, productSchema };

@@ -37,7 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: 
   provider: ^6.0.5
-  shared_preferences: ^2.2.0
+  shared_preferences: ^2.2.1
   badges: ^3.1.1
   carousel_slider: ^4.2.1
   dotted_border: ^2.0.0+3
@@ -47,6 +47,7 @@ dependencies:
   pay: ^1.1.2
   intl:
   charts_flutter: ^0.12.0
+  font_awesome_flutter: ^10.1.0
 
 dev_dependencies:
   flutter_test:

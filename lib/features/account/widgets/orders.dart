@@ -66,6 +66,7 @@ class _OrdersState extends State<Orders> {
                     scrollDirection: Axis.horizontal,
                     itemCount: orders!.length,
                     itemBuilder: (context, index) {
+                      print(orders!.length);
                       return GestureDetector(
                         onTap: () {
                           Navigator.pushNamed(

@@ -6,10 +6,12 @@ import 'dart:io';
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_easy_ecommerce/constants/error_handling.dart';
 import 'package:shop_easy_ecommerce/constants/global_variables.dart';
 import 'package:shop_easy_ecommerce/constants/utils.dart';
 import 'package:shop_easy_ecommerce/features/admin/models/sales.dart';
+import 'package:shop_easy_ecommerce/features/auth/screens/auth_screen.dart';
 import 'package:shop_easy_ecommerce/models/order.dart';
 import 'package:shop_easy_ecommerce/models/product.dart';
 import 'package:http/http.dart' as http;
@@ -204,5 +206,18 @@ class AdminServices {
       'sales': sales,
       'totalEarnings': totalEarning,
     };
+  }
+
+  void logOut(BuildContext context) async {
+    try {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+
+      await sharedPreferences.setString('x-auth-token', '');
+      Navigator.pushNamedAndRemoveUntil(
+          context, AuthScreen.routename, (route) => false);
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
   }
 }

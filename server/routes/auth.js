@@ -6,11 +6,12 @@ const auth = require('../middlewares/auth');
 
 const authRouter = express.Router();
 
-//SIGN UP ROUTE
+//SIGN UP ROUTE FOR USER
 authRouter.post('/api/signup', async (req, res) => {
 
     try {
-        const { name, email, password } = req.body;
+        console.log("in");
+        const { name, email, password, phone } = req.body;
 
         const existingUser = await User.findOne({ email }); // to find any one document in user collection with the same email property
 
@@ -25,7 +26,8 @@ authRouter.post('/api/signup', async (req, res) => {
         let user = new User({
             email,
             password: hashedPassword,
-            name
+            name,
+            phone
         })
 
         user = await user.save();
@@ -42,7 +44,7 @@ authRouter.post('/api/signup', async (req, res) => {
     //return that data to user
 });
 
-//SIGN IN ROUTE 
+//SIGN IN ROUTE FOR USER
 authRouter.post('/api/signin', async (req, res) => {
 
     try {
@@ -73,6 +75,22 @@ authRouter.post('/api/signin', async (req, res) => {
 
 });
 
+// Add a new route for updating user information
+authRouter.put('/api/updateProfile', auth, async (req, res) => {
+    try {
+        const userId = req.user; // Get the user ID from the authenticated user
+        const { name, address, phone } = req.body; // Get the updated information
+
+        // Update the user's information in the database
+        await User.findByIdAndUpdate(userId, { name, address, phone });
+
+        res.json({ msg: "User information updated successfully" });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+
 //Checken token validity
 authRouter.post('/tokenIsValid', async (req, res) => {
 
@@ -97,7 +115,6 @@ authRouter.post('/tokenIsValid', async (req, res) => {
 });
 
 // get user data
-
 authRouter.get('/', auth, async (req, res) => {
     const user = await User.findById(req.user);
     res.json({ ...user._doc, token: req.token });

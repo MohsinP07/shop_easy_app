@@ -6,7 +6,9 @@ const mongoose = require('mongoose');
 const authRouter = require('./routes/auth');
 const adminRouter = require('./routes/admin');
 const productRouter = require('./routes/product');
-const userRouter = require('./routes/user')
+const userRouter = require('./routes/user');
+const sellerAuthRouter = require('./routes/seller_auth');
+const sellerRouter = require('./routes/seller');
 
 //INIT
 const PORT = 3000;
@@ -20,6 +22,8 @@ app.use(authRouter);
 app.use(adminRouter);
 app.use(productRouter);
 app.use(userRouter);
+app.use(sellerAuthRouter);
+app.use(sellerRouter);
 
 //CLIENT -> middleware -> SERVER -> CLIENT
 

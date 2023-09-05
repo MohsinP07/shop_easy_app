@@ -14,7 +14,7 @@ class TopButtons extends StatelessWidget {
         Row(
           children: [
             AccountButton(text: "Your Orders", onTap: () {}),
-            AccountButton(text: "Turn Seller", onTap: () {})
+            AccountButton(text: "Profile", onTap: () {})
           ],
         ),
         SizedBox(

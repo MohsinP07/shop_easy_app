@@ -5,8 +5,10 @@ import 'package:shop_easy_ecommerce/constants/global_variables.dart';
 import 'package:shop_easy_ecommerce/features/admin/screens/analtycs_screen.dart';
 import 'package:shop_easy_ecommerce/features/admin/screens/orders_screen.dart';
 import 'package:shop_easy_ecommerce/features/admin/screens/posts_screen.dart';
+import 'package:shop_easy_ecommerce/features/admin/services/admin_services.dart';
 
 class AdminScreen extends StatefulWidget {
+  static const String routeName = '/admin-home';
   const AdminScreen({super.key});
 
   @override
@@ -18,16 +20,38 @@ class _AdminScreenState extends State<AdminScreen> {
   double bottomBarWidth = 42;
   double bottomBarBorderWidth = 5;
 
-  List<Widget> pages = [
-    PostsScreen(),
-    AnalticsScreen(),
-    OrdersScreen()
-  ];
+  List<Widget> pages = [PostsScreen(), AnalticsScreen(), OrdersScreen()];
 
   void updatePage(int page) {
     setState(() {
       _page = page;
     });
+  }
+
+  logoutDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Container(
+              height: 60,
+              width: 80,
+              child: Column(
+                children: [Text("Are you sure you want to logout?")],
+              ),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Cancel")),
+              TextButton(
+                  onPressed: () => AdminServices().logOut(context),
+                  child: Text("Logout")),
+            ],
+          );
+        });
   }
 
   @override
@@ -43,20 +67,12 @@ class _AdminScreenState extends State<AdminScreen> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                alignment: Alignment.topLeft,
-                child: Image.asset(
-                  'assets/images/amazon_in.png',
-                  width: 120,
-                  height: 45,
-                  color: Colors.black,
-                ),
-              ),
               Text(
                 "Admin",
                 style:
                     TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-              )
+              ),
+              IconButton(onPressed: logoutDialog, icon: Icon(Icons.logout))
             ],
           ),
         ),

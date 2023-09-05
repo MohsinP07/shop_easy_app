@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_easy_ecommerce/common/widgets/custom_button.dart';
 import 'package:shop_easy_ecommerce/constants/global_variables.dart';
+import 'package:shop_easy_ecommerce/constants/utils.dart';
 import 'package:shop_easy_ecommerce/features/admin/services/admin_services.dart';
 import 'package:shop_easy_ecommerce/features/search/screens/search_screen.dart';
+import 'package:shop_easy_ecommerce/features/seller/services/seller_services.dart';
 import 'package:shop_easy_ecommerce/models/order.dart';
 import 'package:intl/intl.dart';
+import 'package:shop_easy_ecommerce/providers/seller_provider.dart';
 import 'package:shop_easy_ecommerce/providers/user_provider.dart';
 
 class OrderDetailScreen extends StatefulWidget {
@@ -20,12 +23,17 @@ class OrderDetailScreen extends StatefulWidget {
 }
 
 class _OrderDetailScreenState extends State<OrderDetailScreen> {
+  int count = 0;
+  var user;
+  var seller;
+
   void navigateToSearchScreen(String query) {
     Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
   }
 
   int currentStep = 0;
   final AdminServices adminServices = AdminServices();
+  final SellerServices sellerServices = SellerServices();
 
   @override
   void initState() {
@@ -45,9 +53,22 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     });
   }
 
+  //only for seller
+  void changeOrderStatusSeller(int status) {
+    sellerServices.changeOrderStatus(
+        context: context,
+        status: status + 1,
+        order: widget.order,
+        onSuccess: () {});
+    setState(() {
+      currentStep += 1;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context, listen: false).user;
+    final user = Provider.of<UserProvider>(context).user;
+    final seller = Provider.of<SellerProvider>(context).seller;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70),
@@ -134,7 +155,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         "Order Date:                 ${DateFormat().format(DateTime.fromMillisecondsSinceEpoch(widget.order.orderedAt))}"),
                     Text("Order Id:                      ${widget.order.id}"),
                     Text(
-                        "Order Total:                \$${widget.order.totalPrice}"),
+                        "Order Total:                \₹${widget.order.totalPrice}"),
                   ],
                 ),
               ),
@@ -196,50 +217,72 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     border: Border.all(color: Colors.black12),
                   ),
                   child: Stepper(
-                      currentStep: currentStep,
-                      controlsBuilder: (context, details) {
-                        if (user.type == 'admin') {
-                          print(user.type);
+                    currentStep: currentStep <= 3
+                        ? currentStep
+                        : 3, // Ensure currentStep is within the valid range
+                    controlsBuilder: (context, details) {
+                      if (user.type == 'admin' || seller.type == 'seller') {
+                        if (currentStep < 3) {
                           return CustomButton(
-                              text: "Done",
-                              onTap: () =>
-                                  changeOrderStatus(details.currentStep));
+                            text: "Done",
+                            onTap: () {
+                              if (user.type == 'admin') {
+                                changeOrderStatus(details.currentStep);
+                              } else {
+                                changeOrderStatusSeller(details.currentStep);
+                              }
+                              if (details.currentStep == 3) {
+                                showSnackBar(context, "Order Completed!!");
+                              }
+                            },
+                          );
                         }
+                      } else if (user.type == 'user') {
                         return SizedBox();
-                      },
-                      steps: [
-                        Step(
-                            title: Text("Pending"),
-                            content: Text("Your order is yet to be delivired"),
-                            isActive: currentStep > 0,
-                            state: currentStep > 0
-                                ? StepState.complete
-                                : StepState.indexed),
-                        Step(
-                            title: Text("Completed"),
-                            content: Text(
-                                "Your order has been delivired you are yet to sign"),
-                            isActive: currentStep > 1,
-                            state: currentStep > 1
-                                ? StepState.complete
-                                : StepState.indexed),
-                        Step(
-                            title: Text("Received"),
-                            content: Text(
-                                "Your order is been delivired and signed by you"),
-                            isActive: currentStep > 2,
-                            state: currentStep > 2
-                                ? StepState.complete
-                                : StepState.indexed),
-                        Step(
-                            title: Text("Delivered"),
-                            content: Text(
-                                "Your order is been delivired and signed by you!"),
-                            isActive: currentStep >= 3,
-                            state: currentStep >= 3
-                                ? StepState.complete
-                                : StepState.indexed),
-                      ])),
+                      }
+                      return SizedBox();
+                    },
+                    steps: [
+                      Step(
+                        title: Text("Pending"),
+                        content: Text("Your order is yet to be delivered"),
+                        isActive: currentStep >= 0,
+                        state: currentStep >= 0
+                            ? StepState.complete
+                            : StepState.indexed,
+                      ),
+                      Step(
+                        title: Text("Completed"),
+                        content: Text(
+                          "Your order has been delivered, and you are yet to sign",
+                        ),
+                        isActive: currentStep >= 1,
+                        state: currentStep >= 1
+                            ? StepState.complete
+                            : StepState.indexed,
+                      ),
+                      Step(
+                        title: Text("Received"),
+                        content: Text(
+                          "Your order has been delivered and signed by you",
+                        ),
+                        isActive: currentStep >= 2,
+                        state: currentStep >= 2
+                            ? StepState.complete
+                            : StepState.indexed,
+                      ),
+                      Step(
+                        title: Text("Delivered"),
+                        content: Text(
+                          "Your order has been delivered and signed by you!",
+                        ),
+                        isActive: currentStep >= 3,
+                        state: currentStep >= 3
+                            ? StepState.complete
+                            : StepState.indexed,
+                      ),
+                    ],
+                  )),
             ],
           ),
         ),

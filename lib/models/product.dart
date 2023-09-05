@@ -11,6 +11,8 @@ class Product {
   final double price;
   final String? id;
   final List<Rating>? rating;
+  final String? sellerId;
+  final String? sellerShopName;
 
   Product(
       {required this.name,
@@ -20,6 +22,8 @@ class Product {
       required this.category,
       required this.price,
       this.id,
+      this.sellerId,
+      this.sellerShopName,
       this.rating});
 
   Map<String, dynamic> toMap() {
@@ -31,6 +35,8 @@ class Product {
       'category': category,
       'price': price,
       'id': id,
+      'sellerId': sellerId,
+      'sellerShopName': sellerShopName,
       'rating': rating
     };
   }
@@ -44,6 +50,8 @@ class Product {
         category: map['category'] ?? '',
         price: map['price']?.toDouble() ?? 0.0,
         id: map['_id'],
+        sellerId: map['sellerId'],
+        sellerShopName: map['sellerShopName'],
         rating: map['ratings'] != null
             ? List<Rating>.from(
                 map['ratings']?.map(

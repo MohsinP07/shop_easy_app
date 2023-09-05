@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_easy_ecommerce/common/widgets/custom_button.dart';
 import 'package:shop_easy_ecommerce/constants/global_variables.dart';
+import 'package:shop_easy_ecommerce/constants/utils.dart';
 import 'package:shop_easy_ecommerce/features/address/screens/address_screen.dart';
 import 'package:shop_easy_ecommerce/features/cart/widgets/cart_product.dart';
 import 'package:shop_easy_ecommerce/features/cart/widgets/cart_subtotal.dart';
 import 'package:shop_easy_ecommerce/features/home/widgets/address_box.dart';
 import 'package:shop_easy_ecommerce/features/search/screens/search_screen.dart';
+import 'package:shop_easy_ecommerce/models/product.dart';
 import 'package:shop_easy_ecommerce/providers/user_provider.dart';
 
 class CartScreen extends StatefulWidget {
@@ -31,6 +33,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     final user = context.watch<UserProvider>().user;
+    // print(user.cart);
     int sum = 0;
     user.cart
         .map((e) => sum += e['quantity'] * e['product']['price'] as int)
@@ -102,13 +105,24 @@ class _CartScreenState extends State<CartScreen> {
         child: Column(
           children: [
             AddressBox(),
-            CartSubtotal(),
+            if (user.cart.isNotEmpty) CartSubtotal(),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: CustomButton(
-                text: "Proceed to buy (${user.cart.length} items)",
-                onTap: () => navigateToAddressScreen(sum),
-                color: Colors.yellow.shade600,
+                text: user.cart.isEmpty
+                    ? "No items!"
+                    : "Proceed to buy (${user.cart.length} items)",
+                onTap: () {
+                  if (user.cart.isEmpty) {
+                    showSnackBar(context,
+                        'Cart is empty, Please add items in cart to continue.');
+                  } else {
+                    navigateToAddressScreen(sum);
+                  }
+                },
+                color: user.cart.isEmpty
+                    ? Colors.grey.shade300
+                    : Colors.yellow.shade600,
               ),
             ),
             SizedBox(

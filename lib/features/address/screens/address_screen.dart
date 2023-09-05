@@ -41,8 +41,21 @@ class _AddressScreenState extends State<AddressScreen> {
   TextEditingController townCityController = TextEditingController();
   final _addressFormKey = GlobalKey<FormState>();
   List<PaymentItem> paymentItems = [];
-  String addressToBeUsed = '';
+  String addressAndPhoneToBeUsed = '';
   final AddressServices addressServices = AddressServices();
+  int count = 0;
+  String phone = '';
+  var address = '';
+
+  @override
+  void didChangeDependencies() {
+    if (count == 0) {
+      phone = context.watch<UserProvider>().user.phone;
+      address = context.watch<UserProvider>().user.address;
+      count++;
+    }
+    super.didChangeDependencies();
+  }
 
   @override
   dispose() {
@@ -60,11 +73,11 @@ class _AddressScreenState extends State<AddressScreen> {
         .address
         .isEmpty) {
       addressServices.saveUserAddress(
-          context: context, address: addressToBeUsed);
+          context: context, address: addressAndPhoneToBeUsed);
     }
     addressServices.placeOrder(
         context: context,
-        address: addressToBeUsed,
+        address: addressAndPhoneToBeUsed,
         totalSum: double.parse(widget.totalAmount));
   }
 
@@ -74,16 +87,16 @@ class _AddressScreenState extends State<AddressScreen> {
         .address
         .isEmpty) {
       addressServices.saveUserAddress(
-          context: context, address: addressToBeUsed);
+          context: context, address: addressAndPhoneToBeUsed);
     }
     addressServices.placeOrder(
         context: context,
-        address: addressToBeUsed,
+        address: addressAndPhoneToBeUsed,
         totalSum: double.parse(widget.totalAmount));
   }
 
   void payPressed(String addressFromTheProvider) {
-    addressToBeUsed = '';
+    addressAndPhoneToBeUsed = '';
     bool isForm = flatBuildingController.text.isNotEmpty ||
         areaStreetController.text.isNotEmpty ||
         pinCodeController.text.isNotEmpty ||
@@ -91,24 +104,31 @@ class _AddressScreenState extends State<AddressScreen> {
 
     if (isForm) {
       if (_addressFormKey.currentState!.validate()) {
-        addressToBeUsed =
+        addressAndPhoneToBeUsed =
             '${flatBuildingController.text}, ${areaStreetController.text}, ${townCityController.text} - ${pinCodeController.text}';
       } else {
         throw Exception('Please enter all the values!');
       }
     } else if (addressFromTheProvider.isNotEmpty) {
-      addressToBeUsed = addressFromTheProvider;
+      addressAndPhoneToBeUsed = addressFromTheProvider;
     } else {
       showSnackBar(context, "ERROR");
     }
     cashOnDelivery();
-    print(addressToBeUsed);
+    print(addressAndPhoneToBeUsed);
   }
+
+  String selectedPaymentMethod = "Card";
+
+  List<String> paymentMethods = [
+    'Card',
+    'Cash On Delivery',
+  ];
 
   @override
   Widget build(BuildContext context) {
     // var address = context.watch<UserProvider>().user.address;
-    var address = context.watch<UserProvider>().user.address;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70),
@@ -179,31 +199,80 @@ class _AddressScreenState extends State<AddressScreen> {
                         controller: townCityController,
                         hintText: "Town/City",
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        initialValue: phone,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black38)),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black38)),
+                        ),
+                        validator: (val) {
+                          if (val == null || val.isEmpty) {
+                            return "Please enter your Phone";
+                          }
+                          return null;
+                        },
+                      )
                     ],
                   )),
-              GooglePayButton(
-                onPaymentResult: onGooglePayResult,
-                paymentItems: paymentItems,
-                paymentConfigurationAsset: 'gpay.json',
-                height: 50,
-                type: GooglePayButtonType.buy,
-                margin: EdgeInsets.only(top: 15),
-                loadingIndicator: Center(
-                  child: CircularProgressIndicator(),
-                ),
-                onPressed: () => payPressed(address),
+              SizedBox(
+                height: 12,
               ),
-              SizedBox(height: 12,),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black12, )
+              Row(
+                children: [
+                  Text("Payment method: "),
+                  SizedBox(
+                    width: 12,
                   ),
-                  child: CustomButton(
-                      text: "Cash on Delivery", onTap: () => payPressed(address), color: Colors.white),
-                ),
-              )
+                  SizedBox(
+                    child: DropdownButton(
+                      value: selectedPaymentMethod,
+                      icon: Icon(Icons.keyboard_arrow_down),
+                      items: paymentMethods.map((String item) {
+                        return DropdownMenuItem(value: item, child: Text(item));
+                      }).toList(),
+                      onChanged: (String? newVal) {
+                        setState(() {
+                          selectedPaymentMethod = newVal!;
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              selectedPaymentMethod == 'Card'
+                  ? GooglePayButton(
+                      onPaymentResult: onGooglePayResult,
+                      paymentItems: paymentItems,
+                      paymentConfigurationAsset: 'gpay.json',
+                      height: 50,
+                      type: GooglePayButtonType.buy,
+                      margin: EdgeInsets.only(top: 15),
+                      loadingIndicator: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      onPressed: () => payPressed(address),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                          color: Colors.black12,
+                        )),
+                        child: CustomButton(
+                            text: "Buy Now!!",
+                            onTap: () => payPressed(address),
+                            color: GlobalVariables.secondaryColor),
+                      ),
+                    )
             ],
           ),
         ),

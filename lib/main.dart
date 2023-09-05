@@ -7,14 +7,16 @@ import 'package:shop_easy_ecommerce/constants/global_variables.dart';
 import 'package:shop_easy_ecommerce/features/admin/screens/admin_screen.dart';
 import 'package:shop_easy_ecommerce/features/auth/screens/auth_screen.dart';
 import 'package:shop_easy_ecommerce/features/auth/services/auth_service.dart';
-import 'package:shop_easy_ecommerce/features/home/screens/home_screen.dart';
+import 'package:shop_easy_ecommerce/features/auth/services/seller_auth_service.dart';
+import 'package:shop_easy_ecommerce/providers/seller_provider.dart';
 import 'package:shop_easy_ecommerce/providers/user_provider.dart';
 import 'package:shop_easy_ecommerce/router.dart';
 
 void main() {
-  runApp(MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context) => UserProvider())],
-      child: const MyApp()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => UserProvider()),
+    ChangeNotifierProvider(create: (context) => SellerProvider()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -26,17 +28,19 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final AuthService authService = AuthService();
+  final SellerService sellerService = SellerService();
 
   @override
   void initState() {
     super.initState();
     authService.getUserData(context);
+ ///   sellerService.getSellerData(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner: false,
         title: 'ShopEasy App',
         theme: ThemeData(
           scaffoldBackgroundColor: GlobalVariables.backgroundColor,

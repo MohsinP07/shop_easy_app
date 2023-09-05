@@ -30,12 +30,27 @@ const userSchema = mongoose.Schema({
         default: '',
     },
 
+    phone: {
+        type: String,
+        default: '',
+    },
+
     type: {
         type: String,
-        default: 'user'
+        default: ''
     },
 
     cart: [
+        {
+            product: productSchema,
+            quantity: {
+                type: Number,
+                required: true
+            },
+        },
+    ],
+
+    wishlist: [
         {
             product: productSchema,
             quantity: {

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_easy_ecommerce/common/widgets/stars.dart';
+import 'package:shop_easy_ecommerce/constants/utils.dart';
 import 'package:shop_easy_ecommerce/features/cart/services/cart_services.dart';
 import 'package:shop_easy_ecommerce/features/product_details/services/product_details_services.dart';
 import 'package:shop_easy_ecommerce/models/product.dart';
@@ -19,10 +20,10 @@ class CartProduct extends StatefulWidget {
 class _CartProductState extends State<CartProduct> {
   final ProductDetailsServices productDetailsServices =
       ProductDetailsServices();
-  final CartServices cartServices = CartServices();    
+  final CartServices cartServices = CartServices();
 
   void increaseQuantity(Product product) {
-    productDetailsServices.addToCart(
+    productDetailsServices.increaseQuantity(
       context: context,
       product: product,
     );
@@ -37,6 +38,7 @@ class _CartProductState extends State<CartProduct> {
     final productCart = context.watch<UserProvider>().user.cart[widget.index];
     final product = Product.fromMap(productCart['product']);
     final quantity = productCart['quantity'];
+    print(quantity);
     return Column(
       children: [
         Container(
@@ -64,7 +66,7 @@ class _CartProductState extends State<CartProduct> {
                     width: 235,
                     padding: EdgeInsets.only(left: 10, top: 5),
                     child: Text(
-                      '\$${product.price}',
+                      '\₹${product.price}',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       maxLines: 2,
@@ -76,14 +78,25 @@ class _CartProductState extends State<CartProduct> {
                     child: Text("Eligible for FREE Shipping"),
                   ),
                   Container(
-                    width: 235,
-                    padding: EdgeInsets.only(left: 10, top: 5),
-                    child: Text(
-                      'In Stock',
-                      style: TextStyle(color: Colors.teal),
-                      maxLines: 2,
-                    ),
-                  ),
+                      width: 235,
+                      padding: EdgeInsets.only(left: 10, top: 5),
+                      child: product.quantity < 5 && product.quantity >= 1
+                          ? Text(
+                              'Only ${product.quantity.toInt()} left!',
+                              style: TextStyle(color: Colors.amber),
+                              maxLines: 2,
+                            )
+                          : product.quantity == 0
+                              ? Text(
+                                  'Out of Stock!!',
+                                  style: TextStyle(color: Colors.red),
+                                  maxLines: 2,
+                                )
+                              : Text(
+                                  'In Stock',
+                                  style: TextStyle(color: Colors.teal),
+                                  maxLines: 2,
+                                )),
                 ],
               )
             ],
@@ -102,7 +115,7 @@ class _CartProductState extends State<CartProduct> {
                 child: Row(
                   children: [
                     InkWell(
-                      onTap: ()=> decreaseQuantity(product),
+                      onTap: () => decreaseQuantity(product),
                       child: Container(
                         width: 35,
                         height: 32,
@@ -126,7 +139,14 @@ class _CartProductState extends State<CartProduct> {
                           child: Text(quantity.toString())),
                     ),
                     InkWell(
-                      onTap: () => increaseQuantity(product),
+                      onTap: () {
+                        if (quantity < product.quantity) {
+                          increaseQuantity(product);
+                        } else {
+                          showSnackBar(context,
+                              'Can\'t increase quantity, this product is out of stock!');
+                        }
+                      },
                       child: Container(
                         width: 35,
                         height: 32,

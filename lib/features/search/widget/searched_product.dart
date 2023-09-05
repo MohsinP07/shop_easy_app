@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
 import 'package:shop_easy_ecommerce/common/widgets/stars.dart';
@@ -64,10 +64,30 @@ class SearchedProduct extends StatelessWidget {
                   Container(
                     width: 235,
                     padding: EdgeInsets.only(left: 10, top: 5),
-                    child: Text(
-                      'In Stock',
-                      style: TextStyle(color: Colors.teal),
-                      maxLines: 2,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (product.quantity < 5 && product.quantity >= 1)
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "Only ${product.quantity.toInt()} left!!",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.amber),
+                            ),
+                          ),
+                        if (product.quantity == 0)
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text("Out of Stock!!",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red)),
+                          ),
+                      ],
                     ),
                   ),
                 ],

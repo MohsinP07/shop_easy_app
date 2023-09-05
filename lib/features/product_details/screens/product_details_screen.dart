@@ -3,10 +3,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_easy_ecommerce/common/widgets/custom_button.dart';
 import 'package:shop_easy_ecommerce/common/widgets/stars.dart';
 import 'package:shop_easy_ecommerce/constants/global_variables.dart';
+import 'package:shop_easy_ecommerce/constants/utils.dart';
+import 'package:shop_easy_ecommerce/features/address/screens/address_screen.dart';
+import 'package:shop_easy_ecommerce/features/address/screens/buy_now_screen.dart';
 import 'package:shop_easy_ecommerce/features/product_details/services/product_details_services.dart';
 import 'package:shop_easy_ecommerce/features/search/screens/search_screen.dart';
 import 'package:shop_easy_ecommerce/models/product.dart';
@@ -52,8 +56,30 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     productDetailsServices.addToCart(context: context, product: widget.product);
   }
 
+  void addToWishlist() {
+    productDetailsServices.addToWishlist(
+        context: context, product: widget.product);
+  }
+
+  void navigateToAddressScreen(int sum) {
+    Navigator.pushNamed(context, BuyNowScreen.routeName,
+        arguments: sum.toString());
+  }
+
+  void buyNow(int sum) {
+    productDetailsServices.buyNow(context: context, product: widget.product);
+    navigateToAddressScreen(sum);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<UserProvider>().user;
+
+    int sum = (widget.product.price).toInt();
+
+    // user.cart
+    //     .map((e) => sum += e['quantity'] * e['product']['price'] as int)
+    //     .toList();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70),
@@ -131,12 +157,44 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-              child: Text(
-                widget.product.name,
-                style: TextStyle(fontSize: 15),
+            if (widget.product.sellerShopName == null)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Best Seller"),
+                    Container(
+                      width: 120,
+                      height: 40,
+                      color: GlobalVariables.secondaryColor,
+                      child: Text(
+                        "Amazon's Choice",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )
+                  ],
+                ),
               ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                  child: Text(
+                    widget.product.name,
+                    style: TextStyle(fontSize: 15),
+                  ),
+                ),
+                IconButton(
+                    onPressed: addToWishlist,
+                    icon: Icon(
+                      FontAwesomeIcons.heart,
+                      color: Colors.red,
+                    ))
+              ],
             ),
             CarouselSlider(
                 items: widget.product.images.map((i) {
@@ -163,7 +221,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           fontWeight: FontWeight.bold),
                       children: [
                     TextSpan(
-                      text: "\$${widget.product.price}",
+                      text: "\₹${widget.product.price}",
                       style: TextStyle(
                           fontSize: 22,
                           color: Colors.red,
@@ -171,17 +229,67 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     )
                   ])),
             ),
+            if (widget.product.quantity < 5 && widget.product.quantity >= 1)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Only ${widget.product.quantity.toInt()} left!!",
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.amber),
+                ),
+              ),
+            if (widget.product.quantity == 0)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("Out of Stock!!",
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red)),
+              ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(widget.product.description),
             ),
+            if (widget.product.sellerShopName != 'ShopEasy' &&
+                widget.product.sellerShopName != null)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Sold by: ',
+                      style: TextStyle(fontWeight: FontWeight.w400),
+                    ),
+                    Text(
+                      widget.product.sellerShopName!,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
             Container(
               color: Colors.black12,
               height: 5,
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: CustomButton(text: "Buy Now!", onTap: () {}),
+              child: CustomButton(
+                text: "Buy Now!",
+                onTap: () {
+                  if (widget.product.quantity == 0) {
+                    showSnackBar(context, "This product is out of stock!");
+                  } else {
+                    buyNow(sum);
+                    print(sum);
+                  }
+                },
+                color: widget.product.quantity == 0
+                    ? Colors.grey
+                    : GlobalVariables.secondaryColor,
+              ),
             ),
             SizedBox(
               height: 10,
@@ -190,8 +298,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               padding: const EdgeInsets.all(10.0),
               child: CustomButton(
                 text: "Add to Cart!",
-                onTap: addToCart,
-                color: Color.fromRGBO(254, 216, 19, 1),
+                onTap: () {
+                  if (widget.product.quantity == 0) {
+                    print(widget.product.quantity);
+                    showSnackBar(context, "This product is out of stock!");
+                  } else {
+                    print(widget.product.quantity);
+                    addToCart();
+                  }
+                },
+                color: widget.product.quantity == 0
+                    ? Colors.grey
+                    : Color.fromRGBO(254, 216, 19, 1),
               ),
             ),
             SizedBox(
