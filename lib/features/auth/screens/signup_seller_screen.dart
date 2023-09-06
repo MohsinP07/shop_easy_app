@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:shop_easy_ecommerce/common/widgets/common_val_textfield.dart';
 import 'package:shop_easy_ecommerce/common/widgets/custom_button.dart';
 import 'package:shop_easy_ecommerce/common/widgets/custom_textfield.dart';
 import 'package:shop_easy_ecommerce/constants/global_variables.dart';
@@ -16,8 +17,12 @@ class SignUpSeller extends StatefulWidget {
 }
 
 class _SignUpSellerState extends State<SignUpSeller> {
+  bool hidePassword = true;
+
   final TextEditingController _emailContoller = TextEditingController();
   final TextEditingController _passwordContoller = TextEditingController();
+  final TextEditingController _confirmPasswordContoller =
+      TextEditingController();
   final TextEditingController _sellernameContoller = TextEditingController();
   final TextEditingController _shopnameContoller = TextEditingController();
   final TextEditingController _addressContoller = TextEditingController();
@@ -54,6 +59,7 @@ class _SignUpSellerState extends State<SignUpSeller> {
     super.dispose();
     _emailContoller.dispose();
     _passwordContoller.dispose();
+    _confirmPasswordContoller.dispose();
     _sellernameContoller.dispose();
     _phoneContoller.dispose();
     _shopnameContoller.dispose();
@@ -108,81 +114,231 @@ class _SignUpSellerState extends State<SignUpSeller> {
                   key: _signUpFormKey,
                   child: Column(
                     children: [
-                      CustomTextField(
+                      CommonValTextFormField(
                         controller: _sellernameContoller,
+                        keyboardType: TextInputType.name,
+                        label: "Seller Name",
                         hintText: "Seller Name",
+                        validator: (val) {
+                          if (val == null || val.isEmpty) {
+                            return "Please enter your name";
+                          } else if (!RegExp(r'^[A-Za-z\s]+$').hasMatch(val)) {
+                            return 'Please enter a valid name with letters and spaces only';
+                          }
+                          return null;
+                        },
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      CustomTextField(
+                      CommonValTextFormField(
                         controller: _shopnameContoller,
+                        keyboardType: TextInputType.name,
+                        label: "Shop Name",
                         hintText: "Shop Name",
+                        validator: (val) {
+                          if (val == null || val.isEmpty) {
+                            return "Please enter your shop name";
+                          }
+                          return null;
+                        },
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      CustomTextField(
+                      CommonValTextFormField(
                         controller: _phoneContoller,
+                        keyboardType: TextInputType.phone,
+                        label: "Phone",
                         hintText: "Phone",
+                        validator: (val) {
+                          if (val == null || val.isEmpty) {
+                            return "Please enter your phone";
+                          } else if (val.length < 10 || val.length > 10) {
+                            return 'Please enter valid phone number';
+                          }
+                          return null;
+                        },
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      CustomTextField(
+                      CommonValTextFormField(
                         controller: _addressContoller,
-                        hintText: "Addess",
+                        keyboardType: TextInputType.streetAddress,
+                        maxlines: 2,
+                        label: "Address",
+                        hintText: "Address",
+                        validator: (val) {
+                          if (val == null || val.isEmpty) {
+                            return "Please enter your address";
+                          }
+                          return null;
+                        },
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      CustomTextField(
+                      CommonValTextFormField(
                         controller: _emailContoller,
+                        keyboardType: TextInputType.emailAddress,
+                        label: "Email",
                         hintText: "Email",
+                        validator: (val) {
+                          if (val == null || val.isEmpty) {
+                            return "Please enter your email";
+                          }
+                          return null;
+                        },
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      CustomTextField(
+                      CommonValTextFormField(
                         controller: _passwordContoller,
+                        keyboardType: TextInputType.visiblePassword,
+                        suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                hidePassword = !hidePassword;
+                              });
+                            },
+                            icon: Icon(hidePassword
+                                ? Icons.visibility_off
+                                : Icons.visibility, color: Colors.black,)),
+                        obscureText: hidePassword,
+                        label: "Password",
                         hintText: "Password",
+                        validator: (val) {
+                          if (val == null || val.isEmpty) {
+                            return "Please enter your password";
+                          } else if (val.length < 6) {
+                            return "Password must contain minuimum 6 characters";
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      CommonValTextFormField(
+                        controller: _confirmPasswordContoller,
+                        obscureText: true,
+                        keyboardType: TextInputType.text,
+                        label: "Confirm Password",
+                        hintText: "Confirm Password",
+                        validator: (val) {
+                          if (val == null || val.isEmpty) {
+                            return "Please confirm your password";
+                          } else if (val != _passwordContoller.text) {
+                            return "Password does not match";
+                          }
+                          return null;
+                        },
                       ),
                       SizedBox(
                         height: 10,
                       ),
                       Divider(),
                       Text("Bank Details"),
-                      CustomTextField(
+                      CommonValTextFormField(
                         controller: _banknameContoller,
+                        keyboardType: TextInputType.name,
+                        label: "Bank Name",
                         hintText: "Bank Name",
+                        validator: (val) {
+                          if (val == null || val.isEmpty) {
+                            return "Please enter your bank name";
+                          }
+                          return null;
+                        },
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      CustomTextField(
+                      CommonValTextFormField(
                         controller: _accountNumberContoller,
+                        keyboardType: TextInputType.text,
+                        label: "Account Number",
                         hintText: "Account Number",
+                        validator: (val) {
+                          if (val == null || val.isEmpty) {
+                            return "Please enter your account number";
+                          }
+                          return null;
+                        },
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      CustomTextField(
+                      CommonValTextFormField(
                         controller: _bankConfirmAccountNumberContoller,
+                        obscureText: true,
+                        keyboardType: TextInputType.text,
+                        label: "Confirm Account Number",
                         hintText: "Confirm Account Number",
+                        validator: (val) {
+                          if (val == null || val.isEmpty) {
+                            return "Please confirm your account number";
+                          } else if (val != _accountNumberContoller.text) {
+                            return "Account Number does not match";
+                          }
+                          return null;
+                        },
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      CustomTextField(
+                      CommonValTextFormField(
                         controller: _bankIfscContoller,
+                        keyboardType: TextInputType.text,
+                        label: "IFSC Code",
                         hintText: "IFSC Code",
+                        validator: (val) {
+                          if (val == null || val.isEmpty) {
+                            return "Please enter your IFSC code";
+                          } else {
+                            // Remove any whitespace from the input
+                            val = val.replaceAll(RegExp(r'\s+'), '');
+
+                            // Check if the IFSC code consists of 11 characters
+                            if (val.length != 11) {
+                              return "IFSC code should have exactly 11 characters";
+                            }
+
+                            // Check if the first 4 characters are uppercase letters
+                            if (!RegExp(r'^[A-Z]{4}').hasMatch(val)) {
+                              return "First 4 characters should be uppercase letters";
+                            }
+
+                            // Check if the 5th character is '0'
+                            if (val[4] != '0') {
+                              return "5th character should be '0'";
+                            }
+
+                            // Check if the remaining characters are alphanumeric
+                            if (!RegExp(r'^[A-Za-z0-9]{6}$')
+                                .hasMatch(val.substring(5, 11))) {
+                              return "Last 6 characters should be alphanumeric";
+                            }
+                          }
+                          return null; // IFSC code is valid
+                        },
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      CustomTextField(
+                      CommonValTextFormField(
                         controller: _upiNumberContoller,
-                        hintText: "UPI Number",
+                        keyboardType: TextInputType.text,
+                        label: "UPI ID",
+                        hintText: "UPI IDr",
+                        validator: (val) {
+                          if (val == null || val.isEmpty) {
+                            return "Please enter your UPI ID";
+                          }
+                          return null;
+                        },
                       ),
                       SizedBox(
                         height: 10,
