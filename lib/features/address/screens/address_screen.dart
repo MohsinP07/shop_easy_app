@@ -140,9 +140,9 @@ class _AddressScreenState extends State<AddressScreen> {
     return _upiIndia.startTransaction(
         app: app,
         receiverUpiId: 'global.mohsinpatel786@ybl',
-        receiverName: "Mohsin Patel",
-        transactionNote: "Testing this",
-        transactionRefId: "Just Testing",
+        receiverName: "ShopEasy Payment",
+        transactionNote: "ShopEasy Online Payment",
+        transactionRefId: "123456789",
         amount: double.parse(widget.totalAmount));
   }
 
@@ -229,7 +229,7 @@ class _AddressScreenState extends State<AddressScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("$title: ", style: Theme.of(context).textTheme.headlineMedium),
+          Text("$title: ", style: Theme.of(context).textTheme.titleSmall),
           Flexible(
               child: Text(
             body,
@@ -461,7 +461,8 @@ class _AddressScreenState extends State<AddressScreen> {
                                 return Center(
                                   child: Text(
                                     _upiErrorHandler(
-                                        snapshot.error.runtimeType),
+                                      snapshot.error.runtimeType,
+                                    ),
                                   ), // Print's text message on screen
                                 );
                               }

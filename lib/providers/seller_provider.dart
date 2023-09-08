@@ -15,7 +15,7 @@ class SellerProvider extends ChangeNotifier {
       bankname: '',
       accountNumber: '',
       ifscCode: '',
-      upiNumber: '',
+      upiId: '',
       type: '',
       token: '');
 

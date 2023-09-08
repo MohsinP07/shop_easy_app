@@ -140,9 +140,9 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
     return _upiIndia.startTransaction(
         app: app,
         receiverUpiId: 'global.mohsinpatel786@ybl',
-        receiverName: "Mohsin Patel",
-        transactionNote: "Testing this",
-        transactionRefId: "Just Testing",
+        receiverName: "ShopEasy Payment",
+        transactionNote: "ShopEasy Online Payment",
+        transactionRefId: "123456789",
         amount: double.parse(widget.totalAmount));
   }
 

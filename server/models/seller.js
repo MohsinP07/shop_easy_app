@@ -53,7 +53,7 @@ const sellerSchema = mongoose.Schema({
         default: '',
     },
 
-    upiNumber: {
+    upiId: {
         type: String,
         default: '',
     },

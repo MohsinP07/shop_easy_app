@@ -10,7 +10,6 @@ import 'package:shop_easy_ecommerce/features/cart/widgets/cart_product.dart';
 import 'package:shop_easy_ecommerce/features/cart/widgets/cart_subtotal.dart';
 import 'package:shop_easy_ecommerce/features/home/widgets/address_box.dart';
 import 'package:shop_easy_ecommerce/features/search/screens/search_screen.dart';
-import 'package:shop_easy_ecommerce/models/product.dart';
 import 'package:shop_easy_ecommerce/providers/user_provider.dart';
 
 class CartScreen extends StatefulWidget {
@@ -33,6 +32,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     final user = context.watch<UserProvider>().user;
+    final cartItems = user.cart;
     // print(user.cart);
     int sum = 0;
     user.cart
@@ -117,6 +117,13 @@ class _CartScreenState extends State<CartScreen> {
                     showSnackBar(context,
                         'Cart is empty, Please add items in cart to continue.');
                   } else {
+                    // for (int i = 0; i < cartItems.length; i++) {
+                    //   final sellerIdForCartItem =
+                    //       cartItems[i]['product']['sellerId'];
+                    //   // Now you can use sellerIdForCartItem as needed for each item in the cart.
+                    //   print("Seller ID for item $i: $sellerIdForCartItem");
+                    // }
+
                     navigateToAddressScreen(sum);
                   }
                 },

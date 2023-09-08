@@ -50,7 +50,7 @@ class _SignUpSellerState extends State<SignUpSeller> {
         bankname: _banknameContoller.text,
         accountNumber: _accountNumberContoller.text,
         ifscCode: _bankIfscContoller.text,
-        upiNumber: _upiNumberContoller.text);
+        upiId: _upiNumberContoller.text);
     print(_sellernameContoller.text);
   }
 
@@ -203,9 +203,12 @@ class _SignUpSellerState extends State<SignUpSeller> {
                                 hidePassword = !hidePassword;
                               });
                             },
-                            icon: Icon(hidePassword
-                                ? Icons.visibility_off
-                                : Icons.visibility, color: Colors.black,)),
+                            icon: Icon(
+                              hidePassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: Colors.black,
+                            )),
                         obscureText: hidePassword,
                         label: "Password",
                         hintText: "Password",
@@ -332,10 +335,14 @@ class _SignUpSellerState extends State<SignUpSeller> {
                         controller: _upiNumberContoller,
                         keyboardType: TextInputType.text,
                         label: "UPI ID",
-                        hintText: "UPI IDr",
+                        hintText: "UPI ID",
                         validator: (val) {
                           if (val == null || val.isEmpty) {
                             return "Please enter your UPI ID";
+                          } else if (!RegExp(
+                                  r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+$')
+                              .hasMatch(val)) {
+                            return 'Invalid UPI ID format';
                           }
                           return null;
                         },

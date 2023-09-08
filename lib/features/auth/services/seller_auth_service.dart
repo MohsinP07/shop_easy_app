@@ -29,7 +29,7 @@ class SellerService {
     required String bankname,
     required String accountNumber,
     required String ifscCode,
-    required String upiNumber,
+    required String upiId,
   }) async {
     try {
       Seller seller = Seller(
@@ -43,7 +43,7 @@ class SellerService {
           bankname: bankname,
           accountNumber: accountNumber,
           ifscCode: ifscCode,
-          upiNumber: upiNumber,
+          upiId: upiId,
           type: '',
           token: '');
 

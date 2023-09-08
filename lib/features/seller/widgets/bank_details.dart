@@ -20,7 +20,7 @@ class _BankDetailsState extends State<BankDetails> {
     String newBankName = seller.bankname;
     String newAccountNumber = seller.accountNumber;
     String newIfscCode = seller.ifscCode;
-    String newUpiNumber = seller.upiNumber;
+    String newUpiNumber = seller.upiId;
 
     final SellerService sellerServices = SellerService();
 
@@ -67,7 +67,7 @@ class _BankDetailsState extends State<BankDetails> {
                       newUpiNumber = value;
                     });
                   },
-                  decoration: InputDecoration(labelText: 'UPI Number'),
+                  decoration: InputDecoration(labelText: 'UPI Id'),
                 ),
               ],
             ),
@@ -197,9 +197,9 @@ class _BankDetailsState extends State<BankDetails> {
                 ),
                 TextFormField(
                   readOnly: true,
-                  initialValue: seller.upiNumber,
+                  initialValue: seller.upiId,
                   decoration: InputDecoration(
-                    label: Text("UPI Number"),
+                    label: Text("UPI Id"),
                     border: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black38)),
                     enabledBorder: OutlineInputBorder(

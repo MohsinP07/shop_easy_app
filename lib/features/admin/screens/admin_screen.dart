@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_easy_ecommerce/constants/global_variables.dart';
 import 'package:shop_easy_ecommerce/features/admin/screens/analtycs_screen.dart';
+import 'package:shop_easy_ecommerce/features/admin/screens/app_users_screen.dart';
 import 'package:shop_easy_ecommerce/features/admin/screens/orders_screen.dart';
 import 'package:shop_easy_ecommerce/features/admin/screens/posts_screen.dart';
 import 'package:shop_easy_ecommerce/features/admin/services/admin_services.dart';
@@ -20,7 +21,12 @@ class _AdminScreenState extends State<AdminScreen> {
   double bottomBarWidth = 42;
   double bottomBarBorderWidth = 5;
 
-  List<Widget> pages = [PostsScreen(), AnalticsScreen(), OrdersScreen()];
+  List<Widget> pages = [
+    PostsScreen(),
+    AnalticsScreen(),
+    OrdersScreen(),
+    AppUsersScreen()
+  ];
 
   void updatePage(int page) {
     setState(() {
@@ -125,6 +131,20 @@ class _AdminScreenState extends State<AdminScreen> {
                                 : GlobalVariables.backgroundColor,
                             width: bottomBarBorderWidth))),
                 child: Icon(Icons.all_inbox_outlined),
+              ),
+              label: ''),
+          //APP USERS
+          BottomNavigationBarItem(
+              icon: Container(
+                width: bottomBarWidth,
+                decoration: BoxDecoration(
+                    border: Border(
+                        top: BorderSide(
+                            color: _page == 3
+                                ? GlobalVariables.selectedNavBarColor
+                                : GlobalVariables.backgroundColor,
+                            width: bottomBarBorderWidth))),
+                child: Icon(Icons.supervised_user_circle_sharp),
               ),
               label: ''),
         ],

@@ -11,7 +11,7 @@ class Seller {
   final String bankname;
   final String accountNumber;
   final String ifscCode;
-  final String upiNumber;
+  final String upiId;
   final String type;
   final String token;
 
@@ -26,7 +26,7 @@ class Seller {
     required this.bankname,
     required this.accountNumber,
     required this.ifscCode,
-    required this.upiNumber,
+    required this.upiId,
     required this.type,
     required this.token,
   });
@@ -43,7 +43,7 @@ class Seller {
       'bankname': bankname,
       'accountNumber': accountNumber,
       'ifscCode': ifscCode,
-      'upiNumber': upiNumber,
+      'upiId': upiId,
       'type': type,
       'token': token,
     };
@@ -61,7 +61,7 @@ class Seller {
       bankname: map['bankname'] ?? '',
       accountNumber: map['accountNumber'] ?? '',
       ifscCode: map['ifscCode'] ?? '',
-      upiNumber: map['upiNumber'] ?? '',
+      upiId: map['upiId'] ?? '',
       type: map['type'] ?? '',
       token: map['token'] ?? '',
     );
@@ -97,7 +97,7 @@ class Seller {
       bankname: bankname ?? this.bankname,
       accountNumber: accountNumber ?? this.accountNumber,
       ifscCode: ifscCode ?? this.ifscCode,
-      upiNumber: upiNumber ?? this.upiNumber,
+      upiId: upiNumber ?? this.upiId,
       type: type ?? this.type,
       token: token ?? this.token,
     );

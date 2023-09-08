@@ -11,7 +11,7 @@ const { Product } = require('../models/product');
 sellerAuthRouter.post('/seller/signup', async (req, res) => {
 
     try {
-        const { sellername, shopname, phone, address, email, password, bankname, accountNumber, ifscCode, upiNumber } = req.body;
+        const { sellername, shopname, phone, address, email, password, bankname, accountNumber, ifscCode, upiId } = req.body;
 
         const existingSeller = await Seller.findOne({ email }); // to find any one document in seller collection with the same email property
 
@@ -33,7 +33,7 @@ sellerAuthRouter.post('/seller/signup', async (req, res) => {
             bankname,
             accountNumber,
             ifscCode,
-            upiNumber
+            upiId
         })
         console.log(seller);
         seller = await seller.save();
@@ -100,10 +100,10 @@ sellerAuthRouter.put('/seller/updateProfile', seller_auth, async (req, res) => {
 sellerAuthRouter.put('/seller/updateBankDetails', seller_auth, async (req, res) => {
     try {
         const sellerId = req.seller; // Get the user ID from the authenticated seller
-        const { bankname, accountNumber, ifscCode, upiNumber } = req.body; // Get the updated information
+        const { bankname, accountNumber, ifscCode, upiId } = req.body; // Get the updated information
 
         // Update the sellers's information in the database
-        await Seller.findByIdAndUpdate(sellerId, { bankname, accountNumber, ifscCode, upiNumber });
+        await Seller.findByIdAndUpdate(sellerId, { bankname, accountNumber, ifscCode, upiId });
 
         res.json({ msg: "Seller bank information updated successfully" });
     } catch (e) {
