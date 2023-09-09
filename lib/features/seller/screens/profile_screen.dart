@@ -6,6 +6,7 @@ import 'package:shop_easy_ecommerce/features/account/widgets/below_app_bar.dart'
 import 'package:shop_easy_ecommerce/features/seller/services/seller_services.dart';
 import 'package:shop_easy_ecommerce/features/seller/widgets/bank_details.dart';
 import 'package:shop_easy_ecommerce/features/seller/widgets/personal_details.dart';
+import 'package:shop_easy_ecommerce/features/seller/widgets/seller_below_app.dart';
 import 'package:shop_easy_ecommerce/features/seller/widgets/shop_details.dart';
 
 enum ProfileTypes { personalDetails, bankDetails, logout, shopDetails }
@@ -52,7 +53,7 @@ class _SellerPofileScreenState extends State<SellerProfileScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            BelowAppBar(),
+            SellerBelowAppBar(),
             SizedBox(
               height: 10,
             ),

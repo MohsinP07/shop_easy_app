@@ -6,12 +6,12 @@ import 'package:shop_easy_ecommerce/constants/global_variables.dart';
 import 'package:shop_easy_ecommerce/providers/seller_provider.dart';
 import 'package:shop_easy_ecommerce/providers/user_provider.dart';
 
-class BelowAppBar extends StatelessWidget {
-  const BelowAppBar({super.key});
+class SellerBelowAppBar extends StatelessWidget {
+  const SellerBelowAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context, listen: false).user;
+    final seller = Provider.of<SellerProvider>(context, listen: false).seller;
 
     return Container(
       decoration: BoxDecoration(gradient: GlobalVariables.appBarGradient),
@@ -24,7 +24,7 @@ class BelowAppBar extends StatelessWidget {
                   style: TextStyle(color: Colors.black, fontSize: 22),
                   children: [
                 TextSpan(
-                  text: user.name,
+                  text: seller.sellername,
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 22,
