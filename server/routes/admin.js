@@ -3,6 +3,8 @@ const adminRouter = express.Router();
 const admin = require('../middlewares/admin');
 const { Product } = require('../models/product');
 const Order = require("../models/order");
+const User = require('../models/user');
+const Seller = require('../models/seller');
 
 //Add Product
 adminRouter.post("/admin/add-product", admin, async (req, res) => {
@@ -66,18 +68,38 @@ adminRouter.post('/admin/delete-product', admin, async (req, res) => {
 //gett orders
 
 adminRouter.get('/admin/get-orders', admin, async (req, res) => {
-
     try {
-
         const orders = await Order.find({});
         res.json(orders);
-
-
     }
     catch (e) {
         res.status(500).json({ error: e.message });
     }
 
+});
+
+//get users
+
+adminRouter.get('/admin/get-all-users', admin, async (req, res) => {
+    try {
+        const allUsers = await User.find({});
+        res.json(allUsers);
+    }
+    catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+//get sellers
+
+adminRouter.get('/admin/get-all-sellers', async (req, res) => {
+    try {
+        const allSellers = await Seller.find({});
+        res.json(allSellers);
+    }
+    catch (e) {
+        res.status(500).json({ error: e.message });
+    }
 });
 
 adminRouter.post('/admin/change-order-status', admin, async (req, res) => {

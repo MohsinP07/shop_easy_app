@@ -15,6 +15,8 @@ import 'package:shop_easy_ecommerce/features/auth/screens/auth_screen.dart';
 import 'package:shop_easy_ecommerce/models/order.dart';
 import 'package:shop_easy_ecommerce/models/product.dart';
 import 'package:http/http.dart' as http;
+import 'package:shop_easy_ecommerce/models/seller.dart';
+import 'package:shop_easy_ecommerce/models/user.dart';
 import 'package:shop_easy_ecommerce/providers/user_provider.dart';
 
 class AdminServices {
@@ -149,6 +151,64 @@ class AdminServices {
       showSnackBar(context, e.toString());
     }
     return orderList;
+  }
+
+  Future<List<User>> fetchAllUsers(BuildContext context) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    List<User> allUsersList = [];
+    try {
+      http.Response res = await http.get(
+        Uri.parse('$uri/admin/get-all-users'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token
+        },
+      );
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
+            for (int i = 0; i < jsonDecode(res.body).length; i++) {
+              allUsersList.add(
+                User.fromJson(
+                  jsonEncode(jsonDecode(res.body)[i]),
+                ),
+              );
+            }
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+    return allUsersList;
+  }
+
+  Future<List<Seller>> fetchAllSellers(BuildContext context) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    List<Seller> allSellersList = [];
+    try {
+      http.Response res = await http.get(
+        Uri.parse('$uri/admin/get-all-sellers'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token
+        },
+      );
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
+            for (int i = 0; i < jsonDecode(res.body).length; i++) {
+              allSellersList.add(
+                Seller.fromJson(
+                  jsonEncode(jsonDecode(res.body)[i]),
+                ),
+              );
+            }
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+    return allSellersList;
   }
 
   void changeOrderStatus(

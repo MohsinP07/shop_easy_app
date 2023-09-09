@@ -49,36 +49,47 @@ class _PostsScreenState extends State<PostsScreen> {
     return products == null
         ? Loader()
         : Scaffold(
-            body: GridView.builder(
-                itemCount: products!.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2),
-                itemBuilder: (ctx, index) {
-                  final productData = products![index];
-                  return Column(
-                    children: [
-                      SizedBox(
-                        height: 140,
-                        child: SingleProduct(image: productData.images[0]),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                              child: Text(
-                            productData.name,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                          )),
-                          IconButton(
-                              onPressed: () =>
-                                  deleteProduct(productData, index),
-                              icon: Icon(Icons.delete_outline))
-                        ],
-                      )
-                    ],
-                  );
-                }),
+            body: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("Total Products ( ${products!.length} )"),
+                ),
+                Expanded(
+                  child: GridView.builder(
+                      itemCount: products!.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2),
+                      itemBuilder: (ctx, index) {
+                        final productData = products![index];
+                        return Column(
+                          children: [
+                            SizedBox(
+                              height: 140,
+                              child:
+                                  SingleProduct(image: productData.images[0]),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Expanded(
+                                    child: Text(
+                                  productData.name,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                )),
+                                IconButton(
+                                    onPressed: () =>
+                                        deleteProduct(productData, index),
+                                    icon: Icon(Icons.delete_outline))
+                              ],
+                            )
+                          ],
+                        );
+                      }),
+                ),
+              ],
+            ),
             floatingActionButton: FloatingActionButton(
               child: Icon(Icons.add),
               onPressed: navigateToAddProduct,

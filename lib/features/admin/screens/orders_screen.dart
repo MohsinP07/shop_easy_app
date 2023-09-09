@@ -32,23 +32,35 @@ class _OrdersScreenState extends State<OrdersScreen> {
   Widget build(BuildContext context) {
     return orders == null
         ? Loader()
-        : GridView.builder(
-            itemCount: orders!.length,
-            gridDelegate:
-                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-            itemBuilder: (context, index) {
-              final orderData = orders![index];
-              return GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, OrderDetailScreen.routeName,
-                      arguments: orderData);
-                },
-                child: SizedBox(
-                  height: 140,
-                  child: SingleProduct(image: orderData.products[0].images[0]),
+        : Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("Total Orders ( ${orders!.length} )"),
+              ),
+              Expanded(
+                child: GridView.builder(
+                  itemCount: orders!.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2),
+                  itemBuilder: (context, index) {
+                    final orderData = orders![index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, OrderDetailScreen.routeName,
+                            arguments: orderData);
+                      },
+                      child: SizedBox(
+                        height: 140,
+                        child: SingleProduct(
+                            image: orderData.products[0].images[0]),
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
+              ),
+            ],
           );
   }
 }
