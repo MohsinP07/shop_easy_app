@@ -309,7 +309,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 },
                 color: widget.product.quantity == 0
                     ? Colors.grey
-                    : Color.fromRGBO(254, 216, 19, 1),
+                    : GlobalVariables.secondaryColorLight,
               ),
             ),
             SizedBox(
@@ -335,7 +335,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 itemPadding: EdgeInsets.symmetric(horizontal: 4),
                 itemBuilder: (context, _) => Icon(
                       Icons.star,
-                      color: GlobalVariables.secondaryColor,
+                      color: GlobalVariables.secondaryColorLight,
                     ),
                 onRatingUpdate: (rating) {
                   productDetailsServices.rateProduct(

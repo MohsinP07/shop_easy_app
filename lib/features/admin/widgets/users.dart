@@ -31,6 +31,45 @@ class _UsersState extends State<Users> {
     setState(() {});
   }
 
+  void _showUserDetailsDialog(User user) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(user.name),
+          content: Container(
+            width: MediaQuery.of(context).size.width * 80 / 100,
+            height: MediaQuery.of(context).size.height * 60 / 100,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Email: ${user.email}', style: TextStyle(fontSize: 14)),
+                SizedBox(
+                  height: 12,
+                ),
+                Text('Address: ${user.address}',
+                    style: TextStyle(fontSize: 14)),
+                SizedBox(
+                  height: 12,
+                ),
+                Text('Phone: ${user.phone}', style: TextStyle(fontSize: 14)),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
@@ -56,6 +95,9 @@ class _UsersState extends State<Users> {
                       ),
                       title: Text(usersData.name),
                       subtitle: Text(usersData.email),
+                      onTap: () {
+                        _showUserDetailsDialog(usersData); // Show dialog on tap
+                      },
                     );
 
                     // GestureDetector(

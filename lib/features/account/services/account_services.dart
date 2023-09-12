@@ -9,6 +9,7 @@ import 'package:shop_easy_ecommerce/constants/error_handling.dart';
 import 'package:shop_easy_ecommerce/constants/global_variables.dart';
 import 'package:shop_easy_ecommerce/constants/utils.dart';
 import 'package:shop_easy_ecommerce/features/auth/screens/auth_screen.dart';
+import 'package:shop_easy_ecommerce/features/auth/screens/login_screen.dart';
 import 'package:shop_easy_ecommerce/models/order.dart';
 import 'package:shop_easy_ecommerce/models/product.dart';
 import 'package:shop_easy_ecommerce/models/user.dart';
@@ -114,7 +115,7 @@ class AccountServices {
 
       await sharedPreferences.setString('x-auth-token', '');
       Navigator.pushNamedAndRemoveUntil(
-          context, AuthScreen.routename, (route) => false);
+          context, LoginPage.routeName, (route) => false);
     } catch (e) {
       showSnackBar(context, e.toString());
     }

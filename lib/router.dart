@@ -7,8 +7,11 @@ import 'package:shop_easy_ecommerce/features/address/screens/buy_now_screen.dart
 import 'package:shop_easy_ecommerce/features/admin/screens/add_products_screen.dart';
 import 'package:shop_easy_ecommerce/features/admin/screens/admin_screen.dart';
 import 'package:shop_easy_ecommerce/features/auth/screens/auth_screen.dart';
+import 'package:shop_easy_ecommerce/features/auth/screens/login_screen.dart';
+import 'package:shop_easy_ecommerce/features/auth/screens/seller_signup_screen.dart';
 import 'package:shop_easy_ecommerce/features/auth/screens/signup_seller_screen.dart';
 import 'package:shop_easy_ecommerce/features/auth/screens/signup_user_screen.dart';
+import 'package:shop_easy_ecommerce/features/auth/screens/user_signup_screen.dart';
 import 'package:shop_easy_ecommerce/features/home/screens/category_deals_screen.dart';
 import 'package:shop_easy_ecommerce/features/home/screens/home_screen.dart';
 import 'package:shop_easy_ecommerce/features/order_details/screens/order_details_screen.dart';
@@ -31,6 +34,18 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     case SignUpSeller.routename:
       return MaterialPageRoute(
           settings: routeSettings, builder: (_) => SignUpSeller());
+
+    case LoginPage.routeName:
+      return MaterialPageRoute(
+          settings: routeSettings, builder: (_) => LoginPage());
+
+    case UserSignUpScreen.routeName:
+      return MaterialPageRoute(
+          settings: routeSettings, builder: (_) => UserSignUpScreen());
+
+    case SellerSignUpScreen.routename:
+      return MaterialPageRoute(
+          settings: routeSettings, builder: (_) => SellerSignUpScreen());
 
     case HomeScreen.routeName:
       return MaterialPageRoute(

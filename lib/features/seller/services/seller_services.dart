@@ -12,6 +12,7 @@ import 'package:shop_easy_ecommerce/constants/global_variables.dart';
 import 'package:shop_easy_ecommerce/constants/utils.dart';
 import 'package:shop_easy_ecommerce/features/admin/models/sales.dart';
 import 'package:shop_easy_ecommerce/features/auth/screens/auth_screen.dart';
+import 'package:shop_easy_ecommerce/features/auth/screens/login_screen.dart';
 import 'package:shop_easy_ecommerce/models/order.dart';
 import 'package:shop_easy_ecommerce/models/product.dart';
 import 'package:shop_easy_ecommerce/providers/seller_provider.dart';
@@ -178,7 +179,6 @@ class SellerServices {
     }
   }
 
-
   Future<Map<String, dynamic>> getEarnings(BuildContext context) async {
     final sellerProvider = Provider.of<SellerProvider>(context, listen: false);
     List<Sales> sales = [];
@@ -221,7 +221,7 @@ class SellerServices {
 
       await sharedPreferences.setString('x-auth-seller-token', '');
       Navigator.pushNamedAndRemoveUntil(
-          context, AuthScreen.routename, (route) => false);
+          context, LoginPage.routeName, (route) => false);
     } catch (e) {
       showSnackBar(context, e.toString());
     }

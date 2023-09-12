@@ -10,7 +10,7 @@ import 'package:shop_easy_ecommerce/constants/error_handling.dart';
 import 'package:shop_easy_ecommerce/constants/global_variables.dart';
 import 'package:shop_easy_ecommerce/constants/utils.dart';
 import 'package:shop_easy_ecommerce/features/admin/screens/admin_screen.dart';
-import 'package:shop_easy_ecommerce/features/auth/screens/auth_screen.dart';
+import 'package:shop_easy_ecommerce/features/auth/screens/login_screen.dart';
 import 'package:shop_easy_ecommerce/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:shop_easy_ecommerce/providers/seller_provider.dart';
@@ -50,7 +50,7 @@ class AuthService {
           onSuccess: () {
             showSnackBar(
                 context, "Account has been created, you can Login now!");
-            Navigator.of(context).pushNamed(AuthScreen.routename);
+            Navigator.of(context).pushNamed(LoginPage.routeName);
           });
     } catch (e) {
       print(e);
@@ -79,13 +79,13 @@ class AuthService {
             final user = Provider.of<UserProvider>(context, listen: false).user;
             await prefs.setString(
                 'x-auth-token', jsonDecode(res.body)['token']);
-                if (user.type == 'user') {
-          Navigator.pushNamedAndRemoveUntil(
-              context, BottomBar.routeName, (route) => false);
-        } else if (user.type == 'admin') {
-          Navigator.pushNamedAndRemoveUntil(
-              context, AdminScreen.routeName, (route) => false);
-        }
+            if (user.type == 'user') {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, BottomBar.routeName, (route) => false);
+            } else if (user.type == 'admin') {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, AdminScreen.routeName, (route) => false);
+            }
             // Navigator.pushNamedAndRemoveUntil(
             //     context, BottomBar.routeName, (route) => false);
           });

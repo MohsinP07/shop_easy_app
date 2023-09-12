@@ -8,6 +8,7 @@ import 'package:shop_easy_ecommerce/features/admin/screens/admin_screen.dart';
 import 'package:shop_easy_ecommerce/features/auth/screens/auth_screen.dart';
 import 'package:shop_easy_ecommerce/features/auth/services/auth_service.dart';
 import 'package:shop_easy_ecommerce/features/auth/services/seller_auth_service.dart';
+import 'package:shop_easy_ecommerce/features/landing/screens/landing_screen.dart';
 import 'package:shop_easy_ecommerce/providers/seller_provider.dart';
 import 'package:shop_easy_ecommerce/providers/user_provider.dart';
 import 'package:shop_easy_ecommerce/router.dart';
@@ -34,7 +35,8 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     authService.getUserData(context);
- ///   sellerService.getSellerData(context);
+
+    ///   sellerService.getSellerData(context);
   }
 
   @override
@@ -51,10 +53,12 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.blue,
         ),
         onGenerateRoute: (settings) => generateRoute(settings),
-        home: Provider.of<UserProvider>(context).user.token.isNotEmpty
-            ? Provider.of<UserProvider>(context).user.type == 'user'
-                ? BottomBar()
-                : AdminScreen()
-            : AuthScreen());
+        home:
+            //LandingScreen()
+            Provider.of<UserProvider>(context).user.token.isNotEmpty
+                ? Provider.of<UserProvider>(context).user.type == 'user'
+                    ? BottomBar()
+                    : AdminScreen()
+                : LandingScreen());
   }
 }

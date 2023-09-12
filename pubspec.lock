@@ -453,6 +453,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.0"
+  simple_animations:
+    dependency: "direct main"
+    description:
+      name: simple_animations
+      sha256: "1f11ba904a5ad9d1fbfbe29ae2c1beee994d5f974b7f70f4c071ffaac5e135fd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.12"
   sky_engine:
     dependency: transitive
     description: flutter

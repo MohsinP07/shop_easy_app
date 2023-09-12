@@ -23,23 +23,26 @@ class CommonValTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: keyboardType,
-      maxLines: maxlines,
-      obscureText: obscureText,
-      decoration: InputDecoration(
-        suffixIcon: suffixIcon,
-        label: Text(label),
-        hintText: hintText,
-        border: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.black38),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextFormField(
+        controller: controller,
+        keyboardType: keyboardType,
+        maxLines: maxlines,
+        obscureText: obscureText,
+        decoration: InputDecoration(
+          suffixIcon: suffixIcon,
+          label: Text(label),
+          hintText: hintText,
+          border: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black38),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black38),
+          ),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.black38),
-        ),
+        validator: validator,
       ),
-      validator: validator,
     );
   }
 }
