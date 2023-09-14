@@ -10,6 +10,7 @@ import 'package:shop_easy_ecommerce/constants/error_handling.dart';
 import 'package:shop_easy_ecommerce/constants/global_variables.dart';
 import 'package:shop_easy_ecommerce/constants/utils.dart';
 import 'package:shop_easy_ecommerce/features/auth/screens/auth_screen.dart';
+import 'package:shop_easy_ecommerce/features/auth/screens/login_screen.dart';
 import 'package:shop_easy_ecommerce/features/seller/screens/seller_screen.dart';
 import 'package:shop_easy_ecommerce/models/seller.dart';
 import 'package:http/http.dart' as http;
@@ -59,7 +60,7 @@ class SellerService {
           onSuccess: () {
             showSnackBar(
                 context, "Account has been created, you can Login now!");
-            Navigator.of(context).pushNamed(AuthScreen.routename);
+            Navigator.of(context).pushNamed(LoginPage.routeName);
           });
     } catch (e) {
       print(e);

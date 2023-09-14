@@ -7,18 +7,24 @@ class CustomTextField extends StatelessWidget {
       {super.key,
       required this.controller,
       required this.hintText,
+      this.obscureText = false,
+      this.suffixIcon,
       this.maxLines = 1});
   final TextEditingController controller;
   final String hintText;
   final int maxLines;
+  final bool obscureText;
+  final Widget? suffixIcon;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
+        obscureText: obscureText,
         controller: controller,
         decoration: InputDecoration(
+          suffixIcon: suffixIcon,
           hintText: hintText,
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.grey.shade400)),

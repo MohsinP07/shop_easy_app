@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:shop_easy_ecommerce/common/widgets/common_val_textfield.dart';
 import 'package:shop_easy_ecommerce/common/widgets/custom_button.dart';
@@ -18,8 +20,12 @@ class SellerSignUpScreen extends StatefulWidget {
 class _SellerSignUpScreenState extends State<SellerSignUpScreen> {
   int _currentPage = 0;
   bool _showSubmitButton = false;
-  bool hidePassword = true;
-  final _signUpFormKey = GlobalKey<FormState>();
+  final List<GlobalKey<FormState>> _formKeys = [
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(), // Add a third key for the third page
+  ];
+
   final List<List<Widget>> _formPages = [];
   double _currentPageValue = 0.0;
 
@@ -121,17 +127,6 @@ class _SellerSignUpScreenState extends State<SellerSignUpScreen> {
         CommonValTextFormField(
           controller: _passwordContoller,
           keyboardType: TextInputType.visiblePassword,
-          suffixIcon: IconButton(
-              onPressed: () {
-                setState(() {
-                  hidePassword = !hidePassword;
-                });
-              },
-              icon: Icon(
-                hidePassword ? Icons.visibility_off : Icons.visibility,
-                color: Colors.black,
-              )),
-          obscureText: hidePassword,
           label: "Password",
           hintText: "Password",
           validator: (val) {
@@ -320,16 +315,18 @@ class _SellerSignUpScreenState extends State<SellerSignUpScreen> {
 
   void _nextPage() {
     if (_currentPage < _formPages.length - 1) {
-      setState(() {
-        _currentPage++;
-        if (_currentPage == _formPages.length - 1) {
-          _showSubmitButton = true;
-        }
-      });
-      _pageController.nextPage(
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+      if (_formKeys[_currentPage].currentState!.validate()) {
+        setState(() {
+          _currentPage++;
+          if (_currentPage == _formPages.length - 1) {
+            _showSubmitButton = true;
+          }
+        });
+        _pageController.nextPage(
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
     }
   }
 
@@ -350,19 +347,54 @@ class _SellerSignUpScreenState extends State<SellerSignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Sign Up Seller"),
+        elevation: 0,
+        brightness: Brightness.light,
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios,
+            size: 20,
+            color: Colors.black,
+          ),
+        ),
       ),
       body: Column(
         children: [
+          Column(
+            children: <Widget>[
+              FadeAnimation(
+                  1,
+                  Text(
+                    "Sign up",
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  )),
+              SizedBox(
+                height: 20,
+              ),
+              FadeAnimation(
+                  1.2,
+                  Text(
+                    "Create an account, It's free",
+                    style: TextStyle(fontSize: 15, color: Colors.grey[700]),
+                  )),
+            ],
+          ),
           Expanded(
             child: FadeAnimation(
               1.5,
               PageView(
                 physics: NeverScrollableScrollPhysics(),
                 controller: _pageController,
-                children: _formPages.map((page) {
+                children: _formPages.asMap().entries.map((entry) {
+                  final pageIndex = entry.key;
+                  final page = entry.value;
+
                   return Form(
-                    key: _signUpFormKey,
+                    key: _formKeys.elementAt(
+                        pageIndex), // Use elementAt to safely access the key
                     child: ListView(
                       padding: EdgeInsets.all(16.0),
                       children: [
@@ -371,25 +403,131 @@ class _SellerSignUpScreenState extends State<SellerSignUpScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            if (_currentPage > 0)
-                              ElevatedButton(
-                                onPressed: _previousPage,
-                                child: Text("Previous"),
-                              ),
+                            if (pageIndex > 0)
+                              // ElevatedButton(
+                              //   onPressed: _previousPage,
+                              //   child: Text("Previous"),
+                              // ),
+                              FadeAnimation(
+                                  1.4,
+                                  Container(
+                                    width: 120,
+                                    padding: EdgeInsets.only(top: 3, left: 3),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(50),
+                                        border: Border(
+                                          bottom:
+                                              BorderSide(color: Colors.black),
+                                          top: BorderSide(color: Colors.black),
+                                          left: BorderSide(color: Colors.black),
+                                          right:
+                                              BorderSide(color: Colors.black),
+                                        )),
+                                    child: MaterialButton(
+                                      minWidth: double.infinity,
+                                      height: 46,
+                                      onPressed: _previousPage,
+                                      color: Colors.greenAccent,
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(50)),
+                                      child: Text(
+                                        "Previous",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 18),
+                                      ),
+                                    ),
+                                  )),
                             if (_showSubmitButton)
-                              ElevatedButton(
-                                onPressed: () {
-                                  if (_signUpFormKey.currentState!.validate()) {
-                                    signUpSeller();
-                                  }
-                                },
-                                child: Text("Submit"),
-                              ),
-                            if (_currentPage < _formPages.length - 1)
-                              ElevatedButton(
-                                onPressed: _nextPage,
-                                child: Text("Next"),
-                              ),
+                              // ElevatedButton(
+                              //   onPressed: () {
+                              //     if (_formKeys
+                              //         .elementAt(pageIndex)
+                              //         .currentState!
+                              //         .validate()) {
+                              //       signUpSeller();
+                              //     }
+                              //   },
+                              //   child: Text("Submit"),
+                              // ),
+                              FadeAnimation(
+                                  1.4,
+                                  Container(
+                                    width: 120,
+                                    padding: EdgeInsets.only(top: 3, left: 3),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(50),
+                                        border: Border(
+                                          bottom:
+                                              BorderSide(color: Colors.black),
+                                          top: BorderSide(color: Colors.black),
+                                          left: BorderSide(color: Colors.black),
+                                          right:
+                                              BorderSide(color: Colors.black),
+                                        )),
+                                    child: MaterialButton(
+                                      minWidth: double.infinity,
+                                      height: 46,
+                                      onPressed: () {
+                                        if (_formKeys
+                                            .elementAt(pageIndex)
+                                            .currentState!
+                                            .validate()) {
+                                          signUpSeller();
+                                        }
+                                      },
+                                      color: Colors.greenAccent,
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(50)),
+                                      child: Text(
+                                        "Submit",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 18),
+                                      ),
+                                    ),
+                                  )),
+                            if (pageIndex < _formPages.length - 1)
+                              // ElevatedButton(
+                              //   onPressed: _nextPage,
+                              //   child: Text("Next"),
+                              // ),
+                              FadeAnimation(
+                                  1.4,
+                                  Container(
+                                    width: 100,
+                                    padding: EdgeInsets.only(top: 3, left: 3),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(50),
+                                        border: Border(
+                                          bottom:
+                                              BorderSide(color: Colors.black),
+                                          top: BorderSide(color: Colors.black),
+                                          left: BorderSide(color: Colors.black),
+                                          right:
+                                              BorderSide(color: Colors.black),
+                                        )),
+                                    child: MaterialButton(
+                                      minWidth: double.infinity,
+                                      height: 46,
+                                      onPressed: _nextPage,
+                                      color: Colors.greenAccent,
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(50)),
+                                      child: Text(
+                                        "Next",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 18),
+                                      ),
+                                    ),
+                                  )),
                           ],
                         ),
                       ],

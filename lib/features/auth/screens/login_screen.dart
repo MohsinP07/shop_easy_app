@@ -26,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   final AuthService authService = AuthService();
   final SellerService sellerService = SellerService();
   var _loginType = LoginType.user;
+  bool hidePassword = true;
 
   final TextEditingController _emailContoller = TextEditingController();
   final TextEditingController _passwordContoller = TextEditingController();
@@ -206,6 +207,16 @@ class _LoginPageState extends State<LoginPage> {
                           FadeAnimation(
                             1.3,
                             CustomTextField(
+                              obscureText: hidePassword,
+                              suffixIcon: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      hidePassword = !hidePassword;
+                                    });
+                                  },
+                                  icon: Icon(hidePassword
+                                      ? Icons.visibility_off
+                                      : Icons.visibility)),
                               controller: _passwordContoller,
                               hintText: "Password",
                             ),
