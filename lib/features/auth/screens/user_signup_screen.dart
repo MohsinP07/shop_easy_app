@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:shop_easy_ecommerce/features/auth/screens/login_screen.dart';
 import 'package:shop_easy_ecommerce/features/landing/animation/FadeAnimation.dart';
 import 'package:shop_easy_ecommerce/common/widgets/common_val_textfield.dart';
 import 'package:shop_easy_ecommerce/common/widgets/custom_button.dart';
@@ -57,6 +58,18 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
         elevation: 0,
         brightness: Brightness.light,
         backgroundColor: Colors.white,
+        title: FadeAnimation(
+          1,
+          Container(
+            alignment: Alignment.topLeft,
+            child: Image.asset(
+              'assets/images/se_logo.png',
+              width: 120,
+              height: 45,
+              color: Colors.black,
+            ),
+          ),
+        ),
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -230,16 +243,21 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                   )),
               FadeAnimation(
                   1.6,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text("Already have an account?"),
-                      Text(
-                        " Login",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 18),
-                      ),
-                    ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(LoginPage.routeName);
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text("Already have an account?"),
+                        Text(
+                          " Login",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 18),
+                        ),
+                      ],
+                    ),
                   )),
             ],
           ),

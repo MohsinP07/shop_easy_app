@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
 import 'package:flutter/material.dart';
 import 'package:pay/pay.dart';
@@ -247,6 +247,15 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70),
         child: AppBar(
+          title: Container(
+            alignment: Alignment.topLeft,
+            child: Image.asset(
+              'assets/images/se_logo.png',
+              width: 120,
+              height: 45,
+              color: Colors.black,
+            ),
+          ),
           flexibleSpace: Container(
             decoration: BoxDecoration(gradient: GlobalVariables.appBarGradient),
           ),

@@ -84,7 +84,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                       BorderRadius.all(Radius.circular(7)),
                                   borderSide: BorderSide(
                                       color: Colors.black38, width: 1)),
-                              hintText: 'Search Amazon.in',
+                              hintText: 'Search ShopEasy.in',
                               hintStyle: TextStyle(
                                   fontWeight: FontWeight.w500, fontSize: 17)),
                         ),

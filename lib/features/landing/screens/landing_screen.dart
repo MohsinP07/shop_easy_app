@@ -90,10 +90,19 @@ class _LandingScreenState extends State<LandingScreen> {
                   SizedBox(
                     height: 20,
                   ),
+                  Container(
+                    alignment: Alignment.center,
+                    child: Image.asset(
+                      'assets/images/se_logo.png',
+                      width: 160,
+                      height: 85,
+                      color: Colors.black,
+                    ),
+                  ),
                   FadeAnimation(
                       1.2,
                       Text(
-                        "Automatic identity verification which enables you to verify your identity",
+                        "Shop Easy, Shop Smart.",
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.grey[700], fontSize: 15),
                       )),

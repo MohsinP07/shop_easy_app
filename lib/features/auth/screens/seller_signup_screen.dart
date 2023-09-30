@@ -350,6 +350,18 @@ class _SellerSignUpScreenState extends State<SellerSignUpScreen> {
         elevation: 0,
         brightness: Brightness.light,
         backgroundColor: Colors.white,
+        title: FadeAnimation(
+                1,
+                Container(
+                  alignment: Alignment.topLeft,
+                  child: Image.asset(
+                    'assets/images/se_logo.png',
+                    width: 120,
+                    height: 45,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);

@@ -45,6 +45,7 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         title: 'ShopEasy App',
         theme: ThemeData(
+          fontFamily: 'Lato',
           scaffoldBackgroundColor: GlobalVariables.backgroundColor,
           colorScheme:
               ColorScheme.light(primary: GlobalVariables.secondaryColor),

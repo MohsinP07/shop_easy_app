@@ -113,19 +113,32 @@ class _LoginPageState extends State<LoginPage> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         elevation: 0,
         brightness: Brightness.light,
         backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.arrow_back_ios,
-            size: 20,
-            color: Colors.black,
+        title: FadeAnimation(
+          1,
+          Container(
+            alignment: Alignment.topLeft,
+            child: Image.asset(
+              'assets/images/se_logo.png',
+              width: 120,
+              height: 45,
+              color: Colors.black,
+            ),
           ),
         ),
+        // leading: IconButton(
+        //   onPressed: () {
+        //     Navigator.pop(context);
+        //   },
+        //   icon: Icon(
+        //     Icons.arrow_back_ios,
+        //     size: 20,
+        //     color: Colors.black,
+        //   ),
+        // ),
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,
