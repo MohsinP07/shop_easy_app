@@ -1,6 +1,8 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, avoid_single_cascade_in_expression_statements
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shop_easy_ecommerce/features/auth/screens/seller_signup_screen.dart';
 import 'package:shop_easy_ecommerce/features/auth/screens/user_signup_screen.dart';
 import 'package:shop_easy_ecommerce/features/landing/animation/FadeAnimation.dart';
@@ -56,55 +58,61 @@ class _LoginPageState extends State<LoginPage> {
     _nameContoller.dispose();
   }
 
-  showSignUpChoice() {
-    showDialog(
-        context: context,
-        builder: (BuildContext ctx) {
-          return AlertDialog(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Create account as?"),
-                IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    icon: Icon(Icons.cancel))
-              ],
-            ),
-            content: Container(
-              width: 120,
-              height: 80,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            Navigator.of(context)
-                                .pushNamed(UserSignUpScreen.routeName);
-                          },
-                          child: Text(
-                            "User",
-                            style: TextStyle(fontSize: 16),
-                          )),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            Navigator.of(context)
-                                .pushNamed(SellerSignUpScreen.routename);
-                          },
-                          child:
-                              Text("Seller", style: TextStyle(fontSize: 16))),
-                    ],
-                  )
-                ],
+  showSignUpChoice(context) {
+    AwesomeDialog(
+        body: Container(
+          width: MediaQuery.of(context).size.width * 60 / 100,
+          height: MediaQuery.of(context).size.height * 24 / 100,
+          child: Column(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width * 60 / 100,
+                height: MediaQuery.of(context).size.height * 18 / 100,
+                child: Image.asset("assets/images/signup_choice.png"),
               ),
-            ),
-          );
-        });
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context)
+                            .pushNamed(UserSignUpScreen.routeName);
+                      },
+                      child: Text(
+                        "User",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
+                      )),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context)
+                            .pushNamed(SellerSignUpScreen.routename);
+                      },
+                      child: Text("Seller",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w600))),
+                ],
+              )
+            ],
+          ),
+        ),
+        context: context,
+        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 1.5 / 100),
+        width: MediaQuery.of(context).size.width * 90 / 100,
+        dialogType: DialogType.question,
+        dialogBorderRadius: BorderRadius.circular(20),
+        animType: AnimType.scale,
+        btnCancel: TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              "Cancel",
+              style: TextStyle(color: Colors.red.shade300),
+            )))
+      ..show();
   }
 
   @override
@@ -288,7 +296,9 @@ class _LoginPageState extends State<LoginPage> {
                               style: TextStyle(
                                   fontWeight: FontWeight.w600, fontSize: 18),
                             ),
-                            onPressed: showSignUpChoice,
+                            onPressed: () {
+                              showSignUpChoice(context);
+                            },
                           ),
                         ],
                       ))
@@ -299,10 +309,7 @@ class _LoginPageState extends State<LoginPage> {
                 1.2,
                 Container(
                   height: MediaQuery.of(context).size.height / 3,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage('assets/images/background.png'),
-                          fit: BoxFit.cover)),
+                  child: Lottie.asset("assets/shimmers/login.json"),
                 ))
           ],
         ),

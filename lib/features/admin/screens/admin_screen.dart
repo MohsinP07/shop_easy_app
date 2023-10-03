@@ -1,5 +1,6 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sized_box_for_whitespace, avoid_single_cascade_in_expression_statements
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_easy_ecommerce/constants/global_variables.dart';
 import 'package:shop_easy_ecommerce/features/admin/screens/analtycs_screen.dart';
@@ -34,30 +35,41 @@ class _AdminScreenState extends State<AdminScreen> {
     });
   }
 
-  logoutDialog() {
-    showDialog(
+  logoutDialog(context) {
+    AwesomeDialog(
+        body: Container(
+            width: MediaQuery.of(context).size.width * 60 / 100,
+            height: MediaQuery.of(context).size.height * 24 / 100,
+            child: Column(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 60 / 100,
+                  height: MediaQuery.of(context).size.height * 18 / 100,
+                  child: Image.asset("assets/images/logout.png"),
+                ),
+                Center(
+                  child: Text("Are you sure you want to logout?"),
+                ),
+              ],
+            )),
         context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Container(
-              height: 60,
-              width: 80,
-              child: Column(
-                children: [Text("Are you sure you want to logout?")],
-              ),
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text("Cancel")),
-              TextButton(
-                  onPressed: () => AdminServices().logOut(context),
-                  child: Text("Logout")),
-            ],
-          );
-        });
+        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 1.5 / 100),
+        width: MediaQuery.of(context).size.width * 90 / 100,
+        dialogType: DialogType.question,
+        dialogBorderRadius: BorderRadius.circular(20),
+        animType: AnimType.scale,
+        btnOk: TextButton(
+            onPressed: () => AdminServices().logOut(context),
+            child: Text("Logout")),
+        btnCancel: TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              "Cancel",
+              style: TextStyle(color: Colors.red.shade300),
+            )))
+      ..show();
   }
 
   @override
@@ -78,7 +90,11 @@ class _AdminScreenState extends State<AdminScreen> {
                 style:
                     TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               ),
-              IconButton(onPressed: logoutDialog, icon: Icon(Icons.logout))
+              IconButton(
+                  onPressed: () {
+                    logoutDialog(context);
+                  },
+                  icon: Icon(Icons.logout))
             ],
           ),
         ),

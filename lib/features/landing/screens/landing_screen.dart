@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shop_easy_ecommerce/constants/global_variables.dart';
 import 'package:shop_easy_ecommerce/features/auth/screens/login_screen.dart';
 import 'package:shop_easy_ecommerce/features/auth/screens/seller_signup_screen.dart';
@@ -112,10 +113,7 @@ class _LandingScreenState extends State<LandingScreen> {
                   1.4,
                   Container(
                     height: MediaQuery.of(context).size.height / 3,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image:
-                                AssetImage('assets/images/Illustration.png'))),
+                    child: Lottie.asset("assets/shimmers/landing.json"),
                   )),
               Column(
                 children: <Widget>[

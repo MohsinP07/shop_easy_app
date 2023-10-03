@@ -1,5 +1,6 @@
-// ignore_for_file: sort_child_properties_last, prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: sort_child_properties_last, prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, avoid_single_cascade_in_expression_statements
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_easy_ecommerce/constants/global_variables.dart';
 import 'package:shop_easy_ecommerce/features/account/services/account_services.dart';
@@ -21,30 +22,41 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   var _accountSettings = AccountSettings.orders;
 
-  logoutDialog() {
-    showDialog(
+  logoutDialog(context) {
+    AwesomeDialog(
+        body: Container(
+            width: MediaQuery.of(context).size.width * 60 / 100,
+            height: MediaQuery.of(context).size.height * 24 / 100,
+            child: Column(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 60 / 100,
+                  height: MediaQuery.of(context).size.height * 18 / 100,
+                  child: Image.asset("assets/images/logout.png"),
+                ),
+                Center(
+                  child: Text("Are you sure you want to logout?"),
+                ),
+              ],
+            )),
         context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Container(
-              height: 60,
-              width: 80,
-              child: Column(
-                children: [Text("Are you sure you want to logout?")],
-              ),
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text("Cancel")),
-              TextButton(
-                  onPressed: () => AccountServices().logOut(context),
-                  child: Text("Logout")),
-            ],
-          );
-        });
+        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 1.5 / 100),
+        width: MediaQuery.of(context).size.width * 90 / 100,
+        dialogType: DialogType.question,
+        dialogBorderRadius: BorderRadius.circular(20),
+        animType: AnimType.scale,
+        btnOk: TextButton(
+            onPressed: () => AccountServices().logOut(context),
+            child: Text("Logout")),
+        btnCancel: TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              "Cancel",
+              style: TextStyle(color: Colors.red.shade300),
+            )))
+      ..show();
   }
 
   @override
@@ -115,7 +127,11 @@ class _AccountScreenState extends State<AccountScreen> {
               ),
               Row(
                 children: [
-                  AccountButton(text: "Log Out", onTap: logoutDialog),
+                  AccountButton(
+                      text: "Log Out",
+                      onTap: () {
+                        logoutDialog(context);
+                      }),
                   AccountButton(
                       text: "Your Wish List",
                       onTap: () {
