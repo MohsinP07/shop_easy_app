@@ -230,7 +230,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                           signUpUser();
                         }
                       },
-                      color: Colors.greenAccent,
+                      color: GlobalVariables.secondaryColor,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50)),

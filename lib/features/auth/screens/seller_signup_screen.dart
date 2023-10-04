@@ -380,7 +380,7 @@ class _SellerSignUpScreenState extends State<SellerSignUpScreen> {
               FadeAnimation(
                   1,
                   Text(
-                    "Sign up",
+                    "Sign up - Seller",
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   )),
               SizedBox(
@@ -439,7 +439,7 @@ class _SellerSignUpScreenState extends State<SellerSignUpScreen> {
                                       minWidth: double.infinity,
                                       height: 46,
                                       onPressed: _previousPage,
-                                      color: Colors.greenAccent,
+                                      color: GlobalVariables.secondaryColor,
                                       elevation: 0,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -490,7 +490,7 @@ class _SellerSignUpScreenState extends State<SellerSignUpScreen> {
                                           signUpSeller();
                                         }
                                       },
-                                      color: Colors.greenAccent,
+                                      color: GlobalVariables.secondaryColor,
                                       elevation: 0,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -527,7 +527,7 @@ class _SellerSignUpScreenState extends State<SellerSignUpScreen> {
                                       minWidth: double.infinity,
                                       height: 46,
                                       onPressed: _nextPage,
-                                      color: Colors.greenAccent,
+                                      color: GlobalVariables.secondaryColor,
                                       elevation: 0,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:

@@ -1,5 +1,6 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, avoid_single_cascade_in_expression_statements
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shop_easy_ecommerce/constants/global_variables.dart';
@@ -16,55 +17,65 @@ class LandingScreen extends StatefulWidget {
 }
 
 class _LandingScreenState extends State<LandingScreen> {
-  showSignUpChoice() {
-    showDialog(
-        context: context,
-        builder: (BuildContext ctx) {
-          return AlertDialog(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Create account as?"),
-                IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    icon: Icon(Icons.cancel))
-              ],
-            ),
-            content: Container(
-              width: 120,
-              height: 80,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            Navigator.of(context)
-                                .pushNamed(UserSignUpScreen.routeName);
-                          },
-                          child: Text(
-                            "User",
-                            style: TextStyle(fontSize: 16),
-                          )),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            Navigator.of(context)
-                                .pushNamed(SellerSignUpScreen.routename);
-                          },
-                          child:
-                              Text("Seller", style: TextStyle(fontSize: 16))),
-                    ],
-                  )
-                ],
+  showSignUpChoice(context) {
+    AwesomeDialog(
+        body: Container(
+          width: MediaQuery.of(context).size.width * 60 / 100,
+          height: MediaQuery.of(context).size.height * 26 / 100,
+          child: Column(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width * 60 / 100,
+                height: MediaQuery.of(context).size.height * 18 / 100,
+                child: Image.asset("assets/images/signup_choice.png"),
               ),
-            ),
-          );
-        });
+              Text(
+                "Sign up as?",
+                style: TextStyle(fontSize: 16),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context)
+                            .pushNamed(UserSignUpScreen.routeName);
+                      },
+                      child: Text(
+                        "User",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
+                      )),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context)
+                            .pushNamed(SellerSignUpScreen.routename);
+                      },
+                      child: Text("Seller",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w600))),
+                ],
+              )
+            ],
+          ),
+        ),
+        context: context,
+        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 1.5 / 100),
+        width: MediaQuery.of(context).size.width * 90 / 100,
+        dialogType: DialogType.question,
+        dialogBorderRadius: BorderRadius.circular(20),
+        animType: AnimType.scale,
+        btnCancel: TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              "Cancel",
+              style: TextStyle(color: Colors.red.shade300),
+            )))
+      ..show();
   }
 
   @override
@@ -81,13 +92,6 @@ class _LandingScreenState extends State<LandingScreen> {
             children: <Widget>[
               Column(
                 children: <Widget>[
-                  FadeAnimation(
-                      1,
-                      Text(
-                        "Welcome",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 30),
-                      )),
                   SizedBox(
                     height: 20,
                   ),
@@ -95,7 +99,7 @@ class _LandingScreenState extends State<LandingScreen> {
                     alignment: Alignment.center,
                     child: Image.asset(
                       'assets/images/se_logo.png',
-                      width: 160,
+                      width: 180,
                       height: 85,
                       color: Colors.black,
                     ),
@@ -152,7 +156,9 @@ class _LandingScreenState extends State<LandingScreen> {
                         child: MaterialButton(
                           minWidth: double.infinity,
                           height: 60,
-                          onPressed: showSignUpChoice,
+                          onPressed: () {
+                            showSignUpChoice(context);
+                          },
                           color: GlobalVariables.secondaryColor,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
