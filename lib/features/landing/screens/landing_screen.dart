@@ -3,11 +3,14 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shop_easy_ecommerce/common/widgets/choice_chips.dart';
 import 'package:shop_easy_ecommerce/constants/global_variables.dart';
 import 'package:shop_easy_ecommerce/features/auth/screens/login_screen.dart';
 import 'package:shop_easy_ecommerce/features/auth/screens/seller_signup_screen.dart';
 import 'package:shop_easy_ecommerce/features/auth/screens/user_signup_screen.dart';
 import 'package:shop_easy_ecommerce/features/landing/animation/FadeAnimation.dart';
+
+enum DialogChoice { userSeleced, sellerSelected }
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({super.key});
@@ -17,65 +20,129 @@ class LandingScreen extends StatefulWidget {
 }
 
 class _LandingScreenState extends State<LandingScreen> {
-  showSignUpChoice(context) {
-    AwesomeDialog(
-        body: Container(
-          width: MediaQuery.of(context).size.width * 60 / 100,
-          height: MediaQuery.of(context).size.height * 26 / 100,
-          child: Column(
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width * 60 / 100,
-                height: MediaQuery.of(context).size.height * 18 / 100,
-                child: Image.asset("assets/images/signup_choice.png"),
-              ),
-              Text(
-                "Sign up as?",
-                style: TextStyle(fontSize: 16),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context)
-                            .pushNamed(UserSignUpScreen.routeName);
-                      },
-                      child: Text(
-                        "User",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w600),
-                      )),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context)
-                            .pushNamed(SellerSignUpScreen.routename);
-                      },
-                      child: Text("Seller",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w600))),
-                ],
-              )
+  var _dialogChoice = DialogChoice.userSeleced;
+  showSignUpChoice(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (builder) {
+        return StatefulBuilder(builder: (context, setState) {
+          return AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    if (_dialogChoice == DialogChoice.userSeleced) {
+                      Navigator.of(context).pop();
+                      Navigator.of(context)
+                          .pushNamed(UserSignUpScreen.routeName);
+                    } else if (_dialogChoice == DialogChoice.sellerSelected) {
+                      Navigator.of(context).pop();
+                      Navigator.of(context)
+                          .pushNamed(SellerSignUpScreen.routename);
+                    }
+                  },
+                  child: Text(
+                    "Submit",
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.green,
+                        fontWeight: FontWeight.w800),
+                  )),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    "Cancel",
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.red,
+                        fontWeight: FontWeight.w400),
+                  ))
             ],
-          ),
-        ),
-        context: context,
-        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 1.5 / 100),
-        width: MediaQuery.of(context).size.width * 90 / 100,
-        dialogType: DialogType.question,
-        dialogBorderRadius: BorderRadius.circular(20),
-        animType: AnimType.scale,
-        btnCancel: TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text(
-              "Cancel",
-              style: TextStyle(color: Colors.red.shade300),
-            )))
-      ..show();
+            content: Container(
+              width: MediaQuery.of(context).size.width * 80 / 100,
+              height: MediaQuery.of(context).size.height * 31 / 100,
+              child: Column(
+                children: [
+                  Text(
+                    "Create account as?",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                  if (_dialogChoice == DialogChoice.userSeleced)
+                    Column(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width * 60 / 100,
+                          height: MediaQuery.of(context).size.height * 18 / 100,
+                          child: Image.asset("assets/images/user_full.png"),
+                        ),
+                        Text(
+                          "User",
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.blue,
+                              fontWeight: FontWeight.w800),
+                        )
+                      ],
+                    ),
+                  if (_dialogChoice == DialogChoice.sellerSelected)
+                    Column(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width * 60 / 100,
+                          height: MediaQuery.of(context).size.height * 18 / 100,
+                          child: Image.asset("assets/images/seller_chip.png"),
+                        ),
+                        Text(
+                          "Seller",
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.green,
+                              fontWeight: FontWeight.w800),
+                        )
+                      ],
+                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      CommonChoiceChips(
+                          title: "User",
+                          textColor: Colors.black,
+                          selected: _dialogChoice == DialogChoice.userSeleced,
+                          onSelected: (selected) {
+                            setState(() {
+                              _dialogChoice = selected
+                                  ? DialogChoice.userSeleced
+                                  : _dialogChoice;
+                            });
+                          },
+                          toolTip: "Login as User",
+                          image: "assets/images/user_chip.png"),
+                      CommonChoiceChips(
+                          title: "Seller",
+                          textColor: Colors.black,
+                          selected:
+                              _dialogChoice == DialogChoice.sellerSelected,
+                          onSelected: (selected) {
+                            setState(() {
+                              _dialogChoice = selected
+                                  ? DialogChoice.sellerSelected
+                                  : _dialogChoice;
+                            });
+                          },
+                          toolTip: "Login as Seller",
+                          image: "assets/images/seller_chip.png"),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+      },
+    );
   }
 
   @override

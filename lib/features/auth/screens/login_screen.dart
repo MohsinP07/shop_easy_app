@@ -62,68 +62,7 @@ class _LoginPageState extends State<LoginPage> {
     _nameContoller.dispose();
   }
 
-  showSignUpChoice(context) {
-    AwesomeDialog(
-        body: Container(
-          width: MediaQuery.of(context).size.width * 60 / 100,
-          height: MediaQuery.of(context).size.height * 26 / 100,
-          child: Column(
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width * 60 / 100,
-                height: MediaQuery.of(context).size.height * 18 / 100,
-                child: Image.asset("assets/images/signup_choice.png"),
-              ),
-              Text(
-                "Sign up as?",
-                style: TextStyle(fontSize: 16),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context)
-                            .pushNamed(UserSignUpScreen.routeName);
-                      },
-                      child: Text(
-                        "User",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w600),
-                      )),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context)
-                            .pushNamed(SellerSignUpScreen.routename);
-                      },
-                      child: Text("Seller",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w600))),
-                ],
-              )
-            ],
-          ),
-        ),
-        context: context,
-        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 1.5 / 100),
-        width: MediaQuery.of(context).size.width * 90 / 100,
-        dialogType: DialogType.question,
-        dialogBorderRadius: BorderRadius.circular(20),
-        animType: AnimType.scale,
-        btnCancel: TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text(
-              "Cancel",
-              style: TextStyle(color: Colors.red.shade300),
-            )))
-      ..show();
-  }
-
-  showChip(BuildContext context) {
+  showSignUpChoice(BuildContext context) {
     showDialog(
       context: context,
       builder: (builder) {
@@ -132,16 +71,40 @@ class _LoginPageState extends State<LoginPage> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             actions: [
-              TextButton(onPressed: () {}, child: Text("Ok")),
+              TextButton(
+                  onPressed: () {
+                    if (_dialogChoice == DialogChoice.userSeleced) {
+                      Navigator.of(context).pop();
+                      Navigator.of(context)
+                          .pushNamed(UserSignUpScreen.routeName);
+                    } else if (_dialogChoice == DialogChoice.sellerSelected) {
+                      Navigator.of(context).pop();
+                      Navigator.of(context)
+                          .pushNamed(SellerSignUpScreen.routename);
+                    }
+                  },
+                  child: Text(
+                    "Submit",
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.green,
+                        fontWeight: FontWeight.w800),
+                  )),
               TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text("Cancel"))
+                  child: Text(
+                    "Cancel",
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.red,
+                        fontWeight: FontWeight.w400),
+                  ))
             ],
             content: Container(
               width: MediaQuery.of(context).size.width * 80 / 100,
-              height: MediaQuery.of(context).size.height * 28 / 100,
+              height: MediaQuery.of(context).size.height * 31 / 100,
               child: Column(
                 children: [
                   Text(
@@ -149,18 +112,41 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                   if (_dialogChoice == DialogChoice.userSeleced)
-                    Container(
-                      width: MediaQuery.of(context).size.width * 60 / 100,
-                      height: MediaQuery.of(context).size.height * 18 / 100,
-                      child: Image.asset("assets/images/user_full.png"),
+                    Column(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width * 60 / 100,
+                          height: MediaQuery.of(context).size.height * 18 / 100,
+                          child: Image.asset("assets/images/user_full.png"),
+                        ),
+                        Text(
+                          "User",
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.blue,
+                              fontWeight: FontWeight.w800),
+                        )
+                      ],
                     ),
                   if (_dialogChoice == DialogChoice.sellerSelected)
-                    Container(
-                      width: MediaQuery.of(context).size.width * 60 / 100,
-                      height: MediaQuery.of(context).size.height * 18 / 100,
-                      child: Image.asset("assets/images/seller_chip.png"),
+                    Column(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width * 60 / 100,
+                          height: MediaQuery.of(context).size.height * 18 / 100,
+                          child: Image.asset("assets/images/seller_chip.png"),
+                        ),
+                        Text(
+                          "Seller",
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.green,
+                              fontWeight: FontWeight.w800),
+                        )
+                      ],
                     ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       CommonChoiceChips(
                           title: "User",
@@ -190,7 +176,7 @@ class _LoginPageState extends State<LoginPage> {
                           toolTip: "Login as Seller",
                           image: "assets/images/seller_chip.png"),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
@@ -378,7 +364,7 @@ class _LoginPageState extends State<LoginPage> {
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600, fontSize: 18),
                               ),
-                              onPressed: () => showChip(context)
+                              onPressed: () => showSignUpChoice(context)
                               // () {
                               //   showSignUpChoice(context);
                               // },
