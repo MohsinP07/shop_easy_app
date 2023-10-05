@@ -1,8 +1,10 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_easy_ecommerce/providers/user_provider.dart';
+
+enum MenuOption { address, phone }
 
 class AddressBox extends StatelessWidget {
   const AddressBox({super.key});
@@ -13,13 +15,13 @@ class AddressBox extends StatelessWidget {
     return Container(
       height: 40,
       decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [
-        Color.fromARGB(255, 114, 226, 221),
-        Color.fromARGB(255, 114, 226, 233),
-      ], stops: [
-        0.5,
-        1.0
-      ])),
+          gradient: LinearGradient(
+        colors: [
+          Color.fromARGB(255, 114, 226, 221), // Start color (lighter teal)
+          Color.fromARGB(255, 114, 226, 233), // End color (teal)
+        ],
+        stops: [0.0, 1.0], // Keep the same stops
+      )),
       padding: EdgeInsets.only(left: 10),
       child: Row(
         children: [
@@ -36,13 +38,54 @@ class AddressBox extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
           )),
-          Padding(
-            padding: EdgeInsets.only(left: 5, top: 2),
-            child: Icon(
-              Icons.arrow_drop_down_outlined,
-              size: 18,
-            ),
+          PopupMenuButton(
+            itemBuilder: (BuildContext ctx) {
+              return <PopupMenuEntry<MenuOption>>[
+                PopupMenuItem(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          'Address: ${user.address}',
+                          style: TextStyle(color: Colors.grey.shade700),
+
+                          maxLines: 3, // Maximum lines for the text
+                        ),
+                      ),
+                    ],
+                  ),
+                  value: MenuOption.address,
+                ),
+                PopupMenuItem(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          'Phone: ${user.phone}',
+                          style: TextStyle(color: Colors.grey.shade700),
+                          overflow:
+                              TextOverflow.ellipsis, // Allow text to overflow
+                          maxLines: 2, // Maximum lines for the text
+                        ),
+                      ),
+                    ],
+                  ),
+                  value: MenuOption.phone,
+                ),
+              ];
+            },
+            icon: Icon(Icons.arrow_drop_down),
           )
+
+          // Padding(
+          //   padding: EdgeInsets.only(left: 5, top: 2),
+          //   child: Icon(
+          //     Icons.arrow_drop_down_outlined,
+          //     size: 18,
+          //   ),
+          // )
         ],
       ),
     );

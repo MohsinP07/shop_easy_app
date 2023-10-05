@@ -6,10 +6,10 @@ class GlobalVariables {
   // COLORS
   static const appBarGradient = LinearGradient(
     colors: [
-      Color.fromARGB(255, 29, 201, 192),
+      Color.fromARGB(255, 0, 153, 144),
       Color.fromARGB(255, 125, 221, 216),
     ],
-    stops: [0.5, 1.0],
+    stops: [0.0, 1.0],
   );
 
   static const secondaryColor = Color(0xFF0ABAB5);
@@ -32,23 +32,23 @@ class GlobalVariables {
   static const List<Map<String, String>> categoryImages = [
     {
       'title': 'Mobiles',
-      'image': 'assets/images/mobiles.jpeg',
+      'image': 'assets/images/mob_cat.png',
     },
     {
       'title': 'Essentials',
-      'image': 'assets/images/essentials.jpeg',
+      'image': 'assets/images/ess_cat.png',
     },
     {
       'title': 'Appliances',
-      'image': 'assets/images/appliances.jpeg',
+      'image': 'assets/images/app_cat.png',
     },
     {
       'title': 'Books',
-      'image': 'assets/images/books.jpeg',
+      'image': 'assets/images/book_cat.png',
     },
     {
       'title': 'Fashion',
-      'image': 'assets/images/fashion.jpeg',
+      'image': 'assets/images/fashion_cat.png',
     },
   ];
 }
