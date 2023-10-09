@@ -15,13 +15,12 @@ class AddressBox extends StatelessWidget {
     return Container(
       height: 40,
       decoration: BoxDecoration(
-          gradient: LinearGradient(
-        colors: [
-          Color.fromARGB(255, 114, 226, 221), // Start color (lighter teal)
-          Color.fromARGB(255, 114, 226, 233), // End color (teal)
-        ],
-        stops: [0.0, 1.0], // Keep the same stops
-      )),
+        gradient: LinearGradient(
+          colors: [Colors.lightBlue.shade300, Colors.teal.shade100],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
       padding: EdgeInsets.only(left: 10),
       child: Row(
         children: [
