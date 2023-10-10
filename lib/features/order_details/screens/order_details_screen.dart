@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_easy_ecommerce/common/widgets/custom_button.dart';
+import 'package:shop_easy_ecommerce/common/widgets/gradient_strip.dart';
 import 'package:shop_easy_ecommerce/constants/global_variables.dart';
 import 'package:shop_easy_ecommerce/constants/utils.dart';
 import 'package:shop_easy_ecommerce/features/admin/services/admin_services.dart';
@@ -69,6 +70,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
     final seller = Provider.of<SellerProvider>(context).seller;
+    final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70),
@@ -138,10 +140,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "View Order Details",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
+              GradientStrip(
+                  deviceSize: deviceSize,
+                  title: "Order Details",
+                  imagePath: "assets/images/order_det.png"),
               Container(
                 padding: EdgeInsets.all(10),
                 width: double.infinity,
@@ -162,10 +164,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               SizedBox(
                 height: 10,
               ),
-              Text(
-                "Purchase Details",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
+              GradientStrip(
+                  deviceSize: deviceSize,
+                  title: "Purchase Details",
+                  imagePath: "assets/images/purchase_det.png"),
               Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black12),
@@ -208,10 +210,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               SizedBox(
                 height: 10,
               ),
-              Text(
-                "Tracking",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
+              GradientStrip(
+                  deviceSize: deviceSize,
+                  title: "Tracking",
+                  imagePath: "assets/images/track_det.png"),
               Container(
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black12),
@@ -273,8 +275,18 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       ),
                       Step(
                         title: Text("Delivered"),
-                        content: Text(
-                          "Your order has been delivered and signed by you!",
+                        content: Column(
+                          children: [
+                            Text(
+                              "Your order has been delivered and signed by you!",
+                            ),
+                            Container(
+                              height: 120,
+                              width: 120,
+                              child: Image.asset(
+                                  "assets/images/delivery_done.png"),
+                            )
+                          ],
                         ),
                         isActive: currentStep >= 3,
                         state: currentStep >= 3

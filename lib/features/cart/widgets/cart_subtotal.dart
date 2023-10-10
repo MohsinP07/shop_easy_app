@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_easy_ecommerce/common/widgets/gradient_strip.dart';
 import 'package:shop_easy_ecommerce/providers/user_provider.dart';
 
 class CartSubtotal extends StatelessWidget {
@@ -9,6 +10,7 @@ class CartSubtotal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
     final user = context.watch<UserProvider>().user;
     int sum = 0;
     user.cart
@@ -16,18 +18,11 @@ class CartSubtotal extends StatelessWidget {
         .toList();
     return Container(
       margin: EdgeInsets.all(10),
-      child: Row(
-        children: [
-          Text(
-            "Subtotal ",
-            style: TextStyle(fontSize: 20),
-          ),
-          Text(
-            '\₹$sum',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          )
-        ],
-      ),
+      width: double.infinity,
+      child: GradientStrip(
+          deviceSize: deviceSize,
+          title: "Subtotal: ₹${sum} Only",
+          imagePath: "assets/images/subtotal.png"),
     );
   }
 }

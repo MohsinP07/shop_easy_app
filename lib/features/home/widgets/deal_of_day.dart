@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shop_easy_ecommerce/common/widgets/gradient_strip.dart';
 import 'package:shop_easy_ecommerce/common/widgets/loader.dart';
 import 'package:shop_easy_ecommerce/features/home/services/home_services.dart';
 import 'package:shop_easy_ecommerce/features/product_details/screens/product_details_screen.dart';
@@ -45,41 +46,10 @@ class _DealOfDayState extends State<DealOfDay> {
                 onTap: navigatetoDetailsScreen,
                 child: Column(
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.lightBlue.shade300,
-                            Colors.teal.shade100
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                      ),
-                      alignment: Alignment.topLeft,
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        children: [
-                          Container(
-                              height: 30,
-                              width: 60,
-                              child: Image.asset(
-                                fit: BoxFit.contain,
-                                "assets/images/deals.png",
-                              )),
-                          SizedBox(
-                            width: deviceSize.width * 0.5 / 100,
-                          ),
-                          Text(
-                            "Deal of the day!!",
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      ),
-                    ),
+                    GradientStrip(
+                        deviceSize: deviceSize,
+                        title: "Deal of the day!!",
+                        imagePath: "assets/images/deals.png"),
                     SizedBox(
                       height: deviceSize.height * 0.1 / 100,
                     ),
