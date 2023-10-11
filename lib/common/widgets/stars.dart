@@ -17,7 +17,7 @@ class Stars extends StatelessWidget {
         itemSize: 15,
         itemBuilder: (context, _) => Icon(
               Icons.star,
-              color: GlobalVariables.secondaryColor,
+              color: GlobalVariables.secondaryColorLight,
             ));
   }
 }
