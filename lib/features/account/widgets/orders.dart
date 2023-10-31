@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shop_easy_ecommerce/common/widgets/loader.dart';
 import 'package:shop_easy_ecommerce/constants/global_variables.dart';
 import 'package:shop_easy_ecommerce/features/account/services/account_services.dart';
+import 'package:shop_easy_ecommerce/features/account/widgets/product_orders.dart';
 import 'package:shop_easy_ecommerce/features/account/widgets/single_product.dart';
 import 'package:shop_easy_ecommerce/features/order_details/screens/order_details_screen.dart';
 import 'package:shop_easy_ecommerce/models/order.dart';
@@ -60,7 +61,7 @@ class _OrdersState extends State<Orders> {
 
               //Display Orders
               Container(
-                height: 170,
+                height: 280,
                 padding: EdgeInsets.only(left: 10, right: 0, top: 20),
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
@@ -68,14 +69,22 @@ class _OrdersState extends State<Orders> {
                     itemBuilder: (context, index) {
                       print(orders!.length);
                       return GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, OrderDetailScreen.routeName,
-                              arguments: orders![index]);
-                        },
-                        child: SingleProduct(
-                            image: orders![index].products[0].images[0]),
-                      );
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, OrderDetailScreen.routeName,
+                                arguments: orders![index]);
+                          },
+                          child: Row(
+                            children: orders![index].products.map((product) {
+                              return ProductOrders(
+                                name: product.name,
+                                price: product.price,
+                                image: product.images.isNotEmpty
+                                    ? product.images[0]
+                                    : '', // You might want to handle this more gracefully
+                              );
+                            }).toList(),
+                          ));
                     }),
               )
             ],

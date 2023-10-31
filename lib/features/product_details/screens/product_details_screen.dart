@@ -71,10 +71,44 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     navigateToAddressScreen(sum);
   }
 
+  String getFirstLine(String text) {
+    // Function to get the first line of the description
+    int breakIndex = text.indexOf('\n');
+    return breakIndex != -1 ? text.substring(0, breakIndex) : text;
+  }
+
+  showFullDiscription(BuildContext context, String description) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: Text("Product Description"),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                Text(description),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = context.watch<UserProvider>().user;
-
+    final deviceSize = MediaQuery.of(context).size;
     int sum = (widget.product.price).toInt();
 
     // user.cart
@@ -164,15 +198,22 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Best Seller"),
+                    // Text("Best Seller"),
                     Container(
-                      width: 120,
+                      width: 80,
                       height: 40,
-                      color: GlobalVariables.secondaryColor,
-                      child: Text(
-                        "Amazon's Choice",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white),
+                      child: Image.asset(
+                        "assets/images/best_seller.png",
+                      ),
+                    ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Container(
+                        width: 100,
+                        height: 40,
+                        child: Image.asset(
+                          "assets/images/shopeasy_choice.png",
+                        ),
                       ),
                     )
                   ],
@@ -185,7 +226,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                   child: Text(
                     widget.product.name,
-                    style: TextStyle(fontSize: 15),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                 ),
                 IconButton(
@@ -206,6 +247,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           ));
                 }).toList(),
                 options: CarouselOptions(viewportFraction: 1, height: 300)),
+            SizedBox(
+              height: 6,
+            ),
             Container(
               color: Colors.black12,
               height: 5,
@@ -221,7 +265,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           fontWeight: FontWeight.bold),
                       children: [
                     TextSpan(
-                      text: "\₹${widget.product.price}",
+                      text: "\₹${widget.product.price} Only",
                       style: TextStyle(
                           fontSize: 22,
                           color: Colors.red,
@@ -249,9 +293,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         fontWeight: FontWeight.bold,
                         color: Colors.red)),
               ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(widget.product.description),
+            ListTile(
+              onTap: () =>
+                  showFullDiscription(context, widget.product.description),
+              title: Text(getFirstLine(widget.product.description)),
+              leading: Icon(Icons.info),
+              trailing: IconButton(
+                  onPressed: () =>
+                      showFullDiscription(context, widget.product.description),
+                  icon: Icon(Icons.keyboard_arrow_right)),
             ),
             if (widget.product.sellerShopName != 'ShopEasy' &&
                 widget.product.sellerShopName != null)
@@ -313,36 +363,55 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 8,
             ),
             Container(
               color: Colors.black12,
               height: 5,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Text(
-                "Rate the product",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.blue.shade300),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                width: deviceSize.width,
+                height: deviceSize.height * 10 / 100,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 8),
+                      child: Text(
+                        "Rate the product",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    RatingBar.builder(
+                        initialRating: myRating,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 4),
+                        itemBuilder: (context, _) => Icon(
+                              Icons.star,
+                              color: GlobalVariables.secondaryColorLight,
+                            ),
+                        onRatingUpdate: (rating) {
+                          productDetailsServices.rateProduct(
+                              context: context,
+                              product: widget.product,
+                              rating: rating);
+                          showSnackBar(context, "Thanks for rating!!");
+                        })
+                  ],
+                ),
               ),
             ),
-            RatingBar.builder(
-                initialRating: myRating,
-                minRating: 1,
-                direction: Axis.horizontal,
-                allowHalfRating: true,
-                itemCount: 5,
-                itemPadding: EdgeInsets.symmetric(horizontal: 4),
-                itemBuilder: (context, _) => Icon(
-                      Icons.star,
-                      color: GlobalVariables.secondaryColorLight,
-                    ),
-                onRatingUpdate: (rating) {
-                  productDetailsServices.rateProduct(
-                      context: context,
-                      product: widget.product,
-                      rating: rating);
-                })
           ],
         ),
       ),

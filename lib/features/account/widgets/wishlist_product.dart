@@ -63,7 +63,7 @@ class _WishlistProductState extends State<WishlistProduct> {
                     width: 235,
                     padding: EdgeInsets.only(left: 10, top: 5),
                     child: Text(
-                      '\$${product.price}',
+                      '\₹${product.price}',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       maxLines: 2,
