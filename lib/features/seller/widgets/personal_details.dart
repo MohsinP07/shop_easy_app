@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_easy_ecommerce/common/widgets/gradient_strip.dart';
 import 'package:shop_easy_ecommerce/constants/global_variables.dart';
 import 'package:shop_easy_ecommerce/constants/utils.dart';
 import 'package:shop_easy_ecommerce/features/auth/services/seller_auth_service.dart';
@@ -27,7 +28,11 @@ class _PersonalDetailsState extends State<PersonalDetails> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Edit Profile'),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          title: GradientStrip(
+              deviceSize: MediaQuery.of(context).size,
+              title: "Edit Profile",
+              imagePath: "assets/images/edit_profile.png"),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,

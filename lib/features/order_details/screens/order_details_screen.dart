@@ -219,6 +219,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     border: Border.all(color: Colors.black12),
                   ),
                   child: Stepper(
+                    physics: AlwaysScrollableScrollPhysics(),
                     currentStep: currentStep <= 3
                         ? currentStep
                         : 3, // Ensure currentStep is within the valid range

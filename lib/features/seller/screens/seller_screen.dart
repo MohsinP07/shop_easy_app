@@ -59,7 +59,7 @@ class _SellerScreenState extends State<SellerScreen> {
                 ),
               ),
               Text(
-                "Supplier",
+                "Seller",
                 style:
                     TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               )
