@@ -39,19 +39,19 @@ class _SignUpSellerState extends State<SignUpSeller> {
   final SellerService sellerService = SellerService();
 
   void signUpSeller() {
-    sellerService.signUpSeller(
-        context: context,
-        sellername: _sellernameContoller.text,
-        shopname: _shopnameContoller.text,
-        phone: _phoneContoller.text,
-        address: _addressContoller.text,
-        email: _emailContoller.text,
-        password: _passwordContoller.text,
-        bankname: _banknameContoller.text,
-        accountNumber: _accountNumberContoller.text,
-        ifscCode: _bankIfscContoller.text,
-        upiId: _upiNumberContoller.text);
-    print(_sellernameContoller.text);
+    // sellerService.signUpSeller(
+    //     context: context,
+    //     sellername: _sellernameContoller.text,
+    //     shopname: _shopnameContoller.text,
+    //     phone: _phoneContoller.text,
+    //     address: _addressContoller.text,
+    //     email: _emailContoller.text,
+    //     password: _passwordContoller.text,
+    //     bankname: _banknameContoller.text,
+    //     accountNumber: _accountNumberContoller.text,
+    //     ifscCode: _bankIfscContoller.text,
+    //     upiId: _upiNumberContoller.text);
+    // print(_sellernameContoller.text);
   }
 
   @override

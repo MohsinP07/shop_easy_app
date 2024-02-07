@@ -11,7 +11,7 @@ const { Product } = require('../models/product');
 sellerAuthRouter.post('/seller/signup', async (req, res) => {
 
     try {
-        const { sellername, shopname, phone, address, email, password, bankname, accountNumber, ifscCode, upiId } = req.body;
+        const { sellername, shopname, shopAddress, shopLicenseNumber, shopCategory, shopOwnershipType, phone, address, email, password, bankname, accountNumber, ifscCode, upiId } = req.body;
 
         const existingSeller = await Seller.findOne({ email }); // to find any one document in seller collection with the same email property
 
@@ -26,6 +26,10 @@ sellerAuthRouter.post('/seller/signup', async (req, res) => {
         let seller = new Seller({
             sellername,
             shopname,
+            shopAddress,
+            shopLicenseNumber,
+            shopCategory,
+            shopOwnershipType,
             phone,
             address,
             email,

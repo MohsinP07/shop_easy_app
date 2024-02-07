@@ -4,6 +4,10 @@ class Seller {
   final String id;
   final String sellername;
   final String shopname;
+  final String shopAddress;
+  final String shopLicenseNumber;
+  final String shopCategory;
+  final String shopOwnershipType;
   final String phone;
   final String address;
   final String email;
@@ -19,6 +23,10 @@ class Seller {
     required this.id,
     required this.sellername,
     required this.shopname,
+    required this.shopAddress,
+    required this.shopLicenseNumber,
+    required this.shopCategory,
+    required this.shopOwnershipType,
     required this.phone,
     required this.address,
     required this.email,
@@ -36,6 +44,10 @@ class Seller {
       'id': id,
       'sellername': sellername,
       'shopname': shopname,
+      'shopAddress': shopAddress,
+      'shopLicenseNumber': shopLicenseNumber,
+      'shopCategory': shopCategory,
+      'shopOwnershipType': shopOwnershipType,
       'phone': phone,
       'address': address,
       'email': email,
@@ -54,6 +66,10 @@ class Seller {
       id: map['_id'] ?? '',
       sellername: map['sellername'] ?? '',
       shopname: map['shopname'] ?? '',
+      shopAddress: map['shopAddress'] ?? '',
+      shopLicenseNumber: map['shopLicenseNumber'] ?? '',
+      shopCategory: map['shopCategory'] ?? '',
+      shopOwnershipType: map['shopOwnershipType'] ?? '',
       phone: map['phone'] ?? '',
       address: map['address'] ?? '',
       email: map['email'] ?? '',
@@ -75,6 +91,10 @@ class Seller {
     String? id,
     String? sellername,
     String? shopname,
+    String? shopAddress,
+    String? shopLicenseNumber,
+    String? shopCategory,
+    String? shopOwnershipType,
     String? phone,
     String? address,
     String? email,
@@ -90,6 +110,10 @@ class Seller {
       id: id ?? this.id,
       sellername: sellername ?? this.sellername,
       shopname: shopname ?? this.shopname,
+      shopAddress: shopAddress ?? this.shopAddress,
+      shopLicenseNumber: shopLicenseNumber ?? this.shopLicenseNumber,
+      shopCategory: shopCategory ?? this.shopCategory,
+      shopOwnershipType: shopOwnershipType ?? this.shopOwnershipType,
       phone: phone ?? this.phone,
       address: address ?? this.address,
       email: email ?? this.email,

@@ -18,6 +18,10 @@ class _ShopDetailsState extends State<ShopDetails> {
   void _showEditDialog() {
     final seller = Provider.of<SellerProvider>(context, listen: false).seller;
     String newShopName = seller.shopname;
+    String newShopAddress = seller.shopAddress;
+    String newShopLicenseNumber = seller.shopLicenseNumber;
+    String newShopCategory = seller.shopCategory;
+    String newShopOwnershipType = seller.shopOwnershipType;
 
     final SellerService sellerServices = SellerService();
 
@@ -25,7 +29,7 @@ class _ShopDetailsState extends State<ShopDetails> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Edit Bank Details'),
+          title: Text('Edit Shop Details'),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -37,35 +41,44 @@ class _ShopDetailsState extends State<ShopDetails> {
                       newShopName = value;
                     });
                   },
-                  decoration: InputDecoration(labelText: 'Bank Name'),
+                  decoration: InputDecoration(labelText: 'Shop Name'),
                 ),
-                // TextFormField(
-                //   initialValue: newAccountNumber,
-                //   onChanged: (value) {
-                //     setState(() {
-                //       newAccountNumber = value;
-                //     });
-                //   },
-                //   decoration: InputDecoration(labelText: 'Account Number'),
-                // ),
-                // TextFormField(
-                //   initialValue: newIfscCode,
-                //   onChanged: (value) {
-                //     setState(() {
-                //       newIfscCode = value;
-                //     });
-                //   },
-                //   decoration: InputDecoration(labelText: 'IFSC Code'),
-                // ),
-                // TextFormField(
-                //   initialValue: newUpiNumber,
-                //   onChanged: (value) {
-                //     setState(() {
-                //       newUpiNumber = value;
-                //     });
-                //   },
-                //   decoration: InputDecoration(labelText: 'UPI Number'),
-                // ),
+                TextFormField(
+                  initialValue: newShopAddress,
+                  onChanged: (value) {
+                    setState(() {
+                      newShopAddress = value;
+                    });
+                  },
+                  decoration: InputDecoration(labelText: 'Shop Address'),
+                ),
+                TextFormField(
+                  initialValue: newShopLicenseNumber,
+                  onChanged: (value) {
+                    setState(() {
+                      newShopLicenseNumber = value;
+                    });
+                  },
+                  decoration: InputDecoration(labelText: 'Shop License Number'),
+                ),
+                TextFormField(
+                  initialValue: newShopCategory,
+                  onChanged: (value) {
+                    setState(() {
+                      newShopCategory = value;
+                    });
+                  },
+                  decoration: InputDecoration(labelText: 'Shop Category'),
+                ),
+                TextFormField(
+                  initialValue: newShopOwnershipType,
+                  onChanged: (value) {
+                    setState(() {
+                      newShopOwnershipType = value;
+                    });
+                  },
+                  decoration: InputDecoration(labelText: 'Shop Ownership Type'),
+                ),
               ],
             ),
           ),
@@ -81,8 +94,8 @@ class _ShopDetailsState extends State<ShopDetails> {
                 // Call a function to send the updated information to backend
                 sellerServices.updateSellerShopInformation(
                     context, newShopName);
-                 Navigator.pop(context);
-                 showSnackBar(context, "Updated!");
+                Navigator.pop(context);
+                showSnackBar(context, "Updated!");
               },
               child: Text('Save'),
             ),
@@ -111,7 +124,7 @@ class _ShopDetailsState extends State<ShopDetails> {
               ),
               GestureDetector(
                 onTap: () {
-                _showEditDialog();
+                  _showEditDialog();
                 },
                 child: Container(
                   padding: EdgeInsets.only(right: 15),
@@ -154,9 +167,9 @@ class _ShopDetailsState extends State<ShopDetails> {
                 ),
                 TextFormField(
                   readOnly: true,
-                  // initialValue: seller.accountNumber,
+                  initialValue: seller.shopAddress,
                   decoration: InputDecoration(
-                    label: Text("Shop Info"),
+                    label: Text("Shop Address"),
                     border: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black38)),
                     enabledBorder: OutlineInputBorder(
@@ -174,9 +187,9 @@ class _ShopDetailsState extends State<ShopDetails> {
                 ),
                 TextFormField(
                   readOnly: true,
-                  // initialValue: seller.ifscCode,
+                  initialValue: seller.shopLicenseNumber,
                   decoration: InputDecoration(
-                    label: Text("Shop Category"),
+                    label: Text("Shop License Number"),
                     border: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black38)),
                     enabledBorder: OutlineInputBorder(
@@ -194,7 +207,27 @@ class _ShopDetailsState extends State<ShopDetails> {
                 ),
                 TextFormField(
                   readOnly: true,
-                  //  initialValue: seller.upiNumber,
+                  initialValue: seller.shopCategory,
+                  decoration: InputDecoration(
+                    label: Text("Shop Category"),
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black38)),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black38)),
+                  ),
+                  validator: (val) {
+                    if (val == null || val.isEmpty) {
+                      return "Please enter type";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                TextFormField(
+                  readOnly: true,
+                  initialValue: seller.shopOwnershipType,
                   decoration: InputDecoration(
                     label: Text("Ownership Type"),
                     border: OutlineInputBorder(

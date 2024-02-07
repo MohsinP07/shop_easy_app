@@ -20,6 +20,21 @@ class SellerSignUpScreen extends StatefulWidget {
 class _SellerSignUpScreenState extends State<SellerSignUpScreen> {
   int _currentPage = 0;
   bool _showSubmitButton = false;
+  String shopCategory = "Retail";
+  List<String> shopCategories = [
+    'Retail',
+    'Wholesale',
+    'Speciality Store',
+    'Online Retailer',
+    'Online Wholesaler',
+  ];
+  String ownership = "Proprietorship";
+  List<String> ownershipTypes = [
+    'Proprietorship',
+    'Partnership',
+    'One Person Company',
+    'Corporate Company',
+  ];
   final List<GlobalKey<FormState>> _formKeys = [
     GlobalKey<FormState>(),
     GlobalKey<FormState>(),
@@ -38,6 +53,9 @@ class _SellerSignUpScreenState extends State<SellerSignUpScreen> {
       TextEditingController();
   final TextEditingController _sellernameContoller = TextEditingController();
   final TextEditingController _shopnameContoller = TextEditingController();
+  final TextEditingController _shopaddressContoller = TextEditingController();
+  final TextEditingController _shopLicenseNumberContoller =
+      TextEditingController();
   final TextEditingController _addressContoller = TextEditingController();
   final TextEditingController _banknameContoller = TextEditingController();
   final TextEditingController _accountNumberContoller = TextEditingController();
@@ -171,6 +189,146 @@ class _SellerSignUpScreenState extends State<SellerSignUpScreen> {
             return null;
           },
         ),
+        CommonValTextFormField(
+          controller: _shopaddressContoller,
+          keyboardType: TextInputType.name,
+          label: "Shop Address",
+          hintText: "Shop Address",
+          validator: (val) {
+            if (val == null || val.isEmpty) {
+              return "Please enter your shop address";
+            }
+            return null;
+          },
+        ),
+        CommonValTextFormField(
+          controller: _shopLicenseNumberContoller,
+          keyboardType: TextInputType.name,
+          label: "Shop Licence Number",
+          hintText: "Shop Licence Number",
+          validator: (val) {
+            if (val == null || val.isEmpty) {
+              return "Please enter your shop license number";
+            }
+            return null;
+          },
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: DropdownButtonFormField<String>(
+            value: shopCategory,
+            decoration: InputDecoration(
+              labelText: 'Shop Category',
+              border: OutlineInputBorder(),
+              isDense: true,
+            ),
+            onChanged: (String? newVal) {
+              setState(() {
+                shopCategory = newVal!;
+              });
+            },
+            items: shopCategories.map((String item) {
+              IconData icon;
+              Color color;
+        
+              switch (item) {
+                case 'Retail':
+                  icon = Icons.shopping_bag;
+                  color = Colors.blue;
+                  break;
+                case 'Wholesale':
+                  icon = Icons.other_houses_outlined;
+                  color = Colors.green;
+                  break;
+                case 'Speciality Store':
+                  icon = Icons.folder_special_outlined;
+                  color = Colors.orange;
+                  break;
+                case 'Online Retailer':
+                  icon = Icons.integration_instructions_rounded;
+                  color = Colors.blueGrey;
+                  break;
+                case 'Online Wholesaler':
+                  icon = Icons.shopping_cart_checkout_outlined;
+                  color = Colors.brown;
+                  break;
+                default:
+                  icon = Icons.error;
+                  color = Colors.red;
+              }
+        
+              return DropdownMenuItem(
+                value: item,
+                child: Row(
+                  children: [
+                    Icon(icon, color: color),
+                    SizedBox(width: 10),
+                    Text(
+                      item,
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: DropdownButtonFormField<String>(
+            value: ownership,
+            decoration: InputDecoration(
+              labelText: 'Shop Ownership Type',
+              border: OutlineInputBorder(),
+              isDense: true,
+            ),
+            onChanged: (String? newVal) {
+              setState(() {
+                ownership = newVal!;
+              });
+            },
+            items: ownershipTypes.map((String item) {
+              IconData icon;
+              Color color;
+        
+              switch (item) {
+                case 'Proprietorship':
+                  icon = Icons.person;
+                  color = Colors.blue;
+                  break;
+                case 'Partnership':
+                  icon = Icons.people;
+                  color = Colors.green;
+                  break;
+                case 'One Person Company':
+                  icon = Icons.person_2_rounded;
+                  color = Colors.orange;
+                  break;
+                case 'Corporate Company':
+                  icon = Icons.corporate_fare;
+                  color = Colors.blueGrey;
+                  break;
+                default:
+                  icon = Icons.error;
+                  color = Colors.red;
+              }
+        
+              return DropdownMenuItem(
+                value: item,
+                child: Row(
+                  children: [
+                    Icon(icon, color: color),
+                    SizedBox(width: 10),
+                    Text(
+                      item,
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
+        ),
       ],
       [
         Text("Bank Details"),
@@ -284,6 +442,10 @@ class _SellerSignUpScreenState extends State<SellerSignUpScreen> {
         context: context,
         sellername: _sellernameContoller.text,
         shopname: _shopnameContoller.text,
+        shopAddress: _shopaddressContoller.text,
+        shopLicenseNumber: _shopLicenseNumberContoller.text,
+        shopCategory: shopCategory,
+        shopOwnershipType: ownership,
         phone: _phoneContoller.text,
         address: _addressContoller.text,
         email: _emailContoller.text,
@@ -351,17 +513,17 @@ class _SellerSignUpScreenState extends State<SellerSignUpScreen> {
         brightness: Brightness.light,
         backgroundColor: Colors.white,
         title: FadeAnimation(
-                1,
-                Container(
-                  alignment: Alignment.topLeft,
-                  child: Image.asset(
-                    'assets/images/se_logo.png',
-                    width: 120,
-                    height: 45,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
+          1,
+          Container(
+            alignment: Alignment.topLeft,
+            child: Image.asset(
+              'assets/images/se_logo.png',
+              width: 120,
+              height: 45,
+              color: Colors.black,
+            ),
+          ),
+        ),
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);

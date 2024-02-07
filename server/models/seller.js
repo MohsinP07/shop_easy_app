@@ -13,6 +13,26 @@ const sellerSchema = mongoose.Schema({
         type: String,
         trim: true
     },
+    shopAddress: {
+        required: true,
+        type: String,
+        trim: true
+    },
+    shopLicenseNumber: {
+        required: true,
+        type: String,
+        trim: true
+    },
+    shopCategory: {
+        required: true,
+        type: String,
+        trim: true
+    },
+    shopOwnershipType: {
+        required: true,
+        type: String,
+        trim: true
+    },
     phone: {
         type: String,
         default: '',
