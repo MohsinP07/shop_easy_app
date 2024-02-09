@@ -118,10 +118,10 @@ sellerAuthRouter.put('/seller/updateBankDetails', seller_auth, async (req, res) 
 sellerAuthRouter.put('/seller/updateShopDetails', seller_auth, async (req, res) => {
     try {
         const sellerId = req.seller; // Get the user ID from the authenticated seller
-        const { shopname } = req.body; // Get the updated information
+        const { shopname, shopAddress, shopLicenseNumber, shopCategory, shopOwnershipType } = req.body; // Get the updated information
 
         // Update the sellers's information in the database
-        await Seller.findByIdAndUpdate(sellerId, { shopname });
+        await Seller.findByIdAndUpdate(sellerId, { shopname, shopAddress, shopLicenseNumber, shopCategory, shopOwnershipType });
 
         res.json({ msg: "Seller shop information updated successfully" });
     } catch (e) {

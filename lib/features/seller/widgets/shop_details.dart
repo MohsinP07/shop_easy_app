@@ -93,7 +93,12 @@ class _ShopDetailsState extends State<ShopDetails> {
               onPressed: () {
                 // Call a function to send the updated information to backend
                 sellerServices.updateSellerShopInformation(
-                    context, newShopName);
+                    context,
+                    newShopName,
+                    newShopAddress,
+                    newShopLicenseNumber,
+                    newShopCategory,
+                    newShopOwnershipType);
                 Navigator.pop(context);
                 showSnackBar(context, "Updated!");
               },

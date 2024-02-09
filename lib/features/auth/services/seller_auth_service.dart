@@ -185,6 +185,10 @@ class SellerService {
   void updateSellerShopInformation(
     BuildContext context,
     String updatedShopName,
+    String updatedShopAddress,
+    String updatedShopLicenseNumber,
+    String updatedShopCategory,
+    String updatedShopOwnershipType,
   ) async {
     final sellerProvider = Provider.of<SellerProvider>(context, listen: false);
 
@@ -197,6 +201,10 @@ class SellerService {
         },
         body: jsonEncode({
           'shopname': updatedShopName,
+          'shopAddress': updatedShopAddress,
+          'shopLicenseNumber': updatedShopLicenseNumber,
+          'shopCategory': updatedShopCategory,
+          'shopOwnershipType': updatedShopOwnershipType
         }),
       );
 
@@ -205,8 +213,11 @@ class SellerService {
           context: context,
           onSuccess: () {
             Seller updatedSeller = sellerProvider.seller.copyWith(
-              shopname: updatedShopName,
-            );
+                shopname: updatedShopName,
+                shopAddress: updatedShopAddress,
+                shopLicenseNumber: updatedShopLicenseNumber,
+                shopCategory: updatedShopCategory,
+                shopOwnershipType: updatedShopOwnershipType);
             sellerProvider.setSellerFromModel(updatedSeller);
           });
     } catch (e) {
