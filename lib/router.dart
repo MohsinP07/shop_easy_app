@@ -17,6 +17,7 @@ import 'package:shop_easy_ecommerce/features/home/screens/home_screen.dart';
 import 'package:shop_easy_ecommerce/features/order_details/screens/order_details_screen.dart';
 import 'package:shop_easy_ecommerce/features/product_details/screens/product_details_screen.dart';
 import 'package:shop_easy_ecommerce/features/search/screens/search_screen.dart';
+import 'package:shop_easy_ecommerce/features/seller/screens/products_screen.dart';
 import 'package:shop_easy_ecommerce/features/seller/screens/seller_add_products_screen.dart';
 import 'package:shop_easy_ecommerce/features/seller/screens/seller_screen.dart';
 import 'package:shop_easy_ecommerce/models/order.dart';
@@ -118,6 +119,10 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     case SellerAddProductScreen.routeName:
       return MaterialPageRoute(
           settings: routeSettings, builder: (_) => SellerAddProductScreen());
+
+    case ProductsScreen.routeName:
+      return MaterialPageRoute(
+          settings: routeSettings, builder: (_) => ProductsScreen());
 
     default:
       return MaterialPageRoute(

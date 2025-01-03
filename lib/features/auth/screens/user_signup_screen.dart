@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shop_easy_ecommerce/features/auth/screens/login_screen.dart';
 import 'package:shop_easy_ecommerce/features/landing/animation/FadeAnimation.dart';
 import 'package:shop_easy_ecommerce/common/widgets/common_val_textfield.dart';
-import 'package:shop_easy_ecommerce/common/widgets/custom_button.dart';
-import 'package:shop_easy_ecommerce/common/widgets/custom_textfield.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:shop_easy_ecommerce/constants/global_variables.dart';
 import 'package:shop_easy_ecommerce/features/auth/services/auth_service.dart';
 
@@ -22,6 +21,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
       TextEditingController();
   final TextEditingController _nameContoller = TextEditingController();
   final TextEditingController _phoneContoller = TextEditingController();
+  final TextEditingController _countryContoller = TextEditingController();
 
   bool hidePassword = true;
 
@@ -31,12 +31,12 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
 
   void signUpUser() {
     authService.signUpUser(
-      context: context,
-      email: _emailContoller.text,
-      phone: _phoneContoller.text,
-      password: _passwordContoller.text,
-      name: _nameContoller.text,
-    );
+        context: context,
+        email: _emailContoller.text,
+        phone: _phoneContoller.text,
+        password: _passwordContoller.text,
+        name: _nameContoller.text,
+        country: _countryContoller.text.trim());
   }
 
   @override
@@ -46,6 +46,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
     _passwordContoller.dispose();
     _nameContoller.dispose();
     _phoneContoller.dispose();
+    _countryContoller.dispose();
     _confirmPasswordContoller.dispose();
   }
 
@@ -84,7 +85,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 40),
-          height: MediaQuery.of(context).size.height - 50,
+          height: MediaQuery.of(context).size.height - 90,
           width: double.infinity,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -99,7 +100,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                             fontSize: 30, fontWeight: FontWeight.bold),
                       )),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   FadeAnimation(
                       1.2,
@@ -145,6 +146,36 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                           }
                           return null;
                         },
+                      ),
+                    ),
+                    FadeAnimation(
+                      1.4,
+                      CommonValTextFormField(
+                        controller: _countryContoller,
+                        keyboardType: TextInputType.text,
+                        label: "Click on arrow to select",
+                        hintText: "Click on arrow to select",
+                        validator: (val) {
+                          if (val == null || val.isEmpty) {
+                            return "Please enter your country";
+                          }
+                          return null;
+                        },
+                        suffixIcon: IconButton(
+                            onPressed: () {
+                              showCountryPicker(
+                                context: context,
+                                showPhoneCode: false,
+                                onSelect: (Country country) {
+                                  print(
+                                      'Select country: ${country.displayName}');
+                                  setState(() {
+                                    _countryContoller.text = country.name;
+                                  });
+                                },
+                              );
+                            },
+                            icon: Icon(Icons.keyboard_arrow_down_sharp)),
                       ),
                     ),
                     FadeAnimation(

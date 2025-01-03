@@ -3,18 +3,21 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField(
-      {super.key,
-      required this.controller,
-      required this.hintText,
-      this.obscureText = false,
-      this.suffixIcon,
-      this.maxLines = 1});
+  const CustomTextField({
+    super.key,
+    required this.controller,
+    required this.hintText,
+    this.obscureText = false,
+    this.suffixIcon,
+    this.maxLines = 1,
+    this.textInputType,
+  });
   final TextEditingController controller;
   final String hintText;
   final int maxLines;
   final bool obscureText;
   final Widget? suffixIcon;
+  final TextInputType? textInputType;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +26,7 @@ class CustomTextField extends StatelessWidget {
       child: TextFormField(
         obscureText: obscureText,
         controller: controller,
+        keyboardType: textInputType,
         decoration: InputDecoration(
           suffixIcon: suffixIcon,
           hintText: hintText,

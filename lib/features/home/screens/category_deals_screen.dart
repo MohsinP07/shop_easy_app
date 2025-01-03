@@ -100,7 +100,7 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                   SizedBox(
                     height: deviceSize.height,
                     child: ListView.builder(
-                        padding: EdgeInsets.only(left: 15),
+                        padding: EdgeInsets.only(left: 12),
                         itemCount: productList!.length,
                         itemBuilder: (context, index) {
                           final product = productList![index];
@@ -157,7 +157,7 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                                         width: deviceSize.width * 2.5 / 100,
                                       ),
                                       Container(
-                                        width: deviceSize.width * 50 / 100,
+                                        width: deviceSize.width * 48 / 100,
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,

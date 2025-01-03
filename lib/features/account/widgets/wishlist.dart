@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_easy_ecommerce/constants/global_variables.dart';
@@ -7,8 +5,6 @@ import 'package:shop_easy_ecommerce/features/account/services/account_services.d
 import 'package:shop_easy_ecommerce/features/account/widgets/wishlist_product.dart';
 import 'package:shop_easy_ecommerce/models/product.dart';
 import 'package:shop_easy_ecommerce/providers/user_provider.dart';
-
-import 'single_product.dart';
 
 class Wishlist extends StatefulWidget {
   const Wishlist({super.key});
@@ -28,50 +24,39 @@ class _WishlistState extends State<Wishlist> {
   Widget build(BuildContext context) {
     final user = context.watch<UserProvider>().user;
 
+    // Ensure that the wishlist is a list of Product objects
+    List<Product> wishlistProducts = user.wishlist
+        .map((item) => Product.fromMap(
+            item['product'])) // Assuming `item` contains a `product` map
+        .toList();
+
     return SingleChildScrollView(
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                padding: EdgeInsets.only(left: 15),
-                child: Text(
-                  "Your Wishlist",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+          // Your other widgets
+          wishlistProducts.isEmpty
+              ? Text("Your wishlist is empty!")
+              : SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: wishlistProducts
+                        .map((product) => Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: WishlistProduct(
+                                  product: product), // Pass product here
+                            ))
+                        .toList(),
+                  ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.only(right: 15),
-                child: Text(
-                  "View all",
-                  style: TextStyle(color: GlobalVariables.selectedNavBarColor),
-                ),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Container(
-            color: Colors.black12.withOpacity(0.08),
-            height: 1,
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          user.wishlist.isEmpty
-              ? Text("Your wish list is empty!")
-              : ListView.separated(
-                  itemCount: user.wishlist.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return WishlistProduct(index: index);
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return Divider();
-                  },
-                )
+          if (wishlistProducts.isNotEmpty)
+            const Text(
+              "Scroll for more >>>",
+              style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  fontSize: 16,
+                  color: GlobalVariables.secondaryColor,
+                  fontWeight: FontWeight.w200),
+            )
         ],
       ),
     );

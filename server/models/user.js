@@ -29,6 +29,11 @@ const userSchema = mongoose.Schema({
         type: String,
         default: '',
     },
+    
+    country: {
+        type: String,
+        default: '',
+    },
 
     phone: {
         type: String,
@@ -37,7 +42,7 @@ const userSchema = mongoose.Schema({
 
     type: {
         type: String,
-        default: ''
+        default: 'user'
     },
 
     cart: [

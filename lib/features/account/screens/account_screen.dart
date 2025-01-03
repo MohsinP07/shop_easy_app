@@ -96,60 +96,62 @@ class _AccountScreenState extends State<AccountScreen> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          BelowAppBar(),
-          SizedBox(
-            height: 10,
-          ),
-          Column(
-            children: [
-              Row(
-                children: [
-                  AccountButton(
-                      text: "Your Orders",
-                      onTap: () {
-                        setState(() {
-                          _accountSettings = AccountSettings.orders;
-                        });
-                      }),
-                  AccountButton(
-                      text: "Profile",
-                      onTap: () {
-                        setState(() {
-                          _accountSettings = AccountSettings.profile;
-                        });
-                      })
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: [
-                  AccountButton(
-                      text: "Log Out",
-                      onTap: () {
-                        logoutDialog(context);
-                      }),
-                  AccountButton(
-                      text: "Your Wish List",
-                      onTap: () {
-                        setState(() {
-                          _accountSettings = AccountSettings.wishlist;
-                        });
-                      })
-                ],
-              )
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          if (_accountSettings == AccountSettings.orders) Orders(),
-          if (_accountSettings == AccountSettings.profile) Profile(),
-          if (_accountSettings == AccountSettings.wishlist) Wishlist(),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            BelowAppBar(),
+            SizedBox(
+              height: 10,
+            ),
+            Column(
+              children: [
+                Row(
+                  children: [
+                    AccountButton(
+                        text: "Your Orders",
+                        onTap: () {
+                          setState(() {
+                            _accountSettings = AccountSettings.orders;
+                          });
+                        }),
+                    AccountButton(
+                        text: "Profile",
+                        onTap: () {
+                          setState(() {
+                            _accountSettings = AccountSettings.profile;
+                          });
+                        })
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    AccountButton(
+                        text: "Log Out",
+                        onTap: () {
+                          logoutDialog(context);
+                        }),
+                    AccountButton(
+                        text: "Your Wish List",
+                        onTap: () {
+                          setState(() {
+                            _accountSettings = AccountSettings.wishlist;
+                          });
+                        })
+                  ],
+                )
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            if (_accountSettings == AccountSettings.orders) Orders(),
+            if (_accountSettings == AccountSettings.profile) Profile(),
+            if (_accountSettings == AccountSettings.wishlist) Wishlist(),
+          ],
+        ),
       ),
     );
   }

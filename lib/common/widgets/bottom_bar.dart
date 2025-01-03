@@ -21,11 +21,7 @@ class _BottomBarState extends State<BottomBar> {
   double bottomBarWidth = 42;
   double bottomBarBorderWidth = 5;
 
-  List<Widget> pages = [
-    HomeScreen(),
-    AccountScreen(),
-    CartScreen()
-  ];
+  List<Widget> pages = [HomeScreen(), AccountScreen(), CartScreen()];
 
   void updatePage(int page) {
     setState(() {

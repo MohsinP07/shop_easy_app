@@ -75,7 +75,7 @@ class AccountServices {
   }
 
   void updateUserInformation(BuildContext context, String updatedName,
-      String updatedAddress, String updatedPhone) async {
+      String updatedAddress, String updatedPhone, String updatedCountry) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     try {
@@ -89,6 +89,7 @@ class AccountServices {
           'name': updatedName,
           'address': updatedAddress,
           'phone': updatedPhone,
+          'country': updatedCountry
         }),
       );
 

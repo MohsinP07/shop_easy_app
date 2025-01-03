@@ -86,7 +86,8 @@ class _OrdersState extends State<Orders> {
                             }).toList(),
                           ));
                     }),
-              )
+              ),
+              if (orders!.isEmpty) Text("No orders!!")
             ],
           );
   }

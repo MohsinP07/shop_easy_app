@@ -13,13 +13,15 @@ import 'package:shop_easy_ecommerce/constants/utils.dart';
 import 'package:shop_easy_ecommerce/features/admin/models/sales.dart';
 import 'package:shop_easy_ecommerce/features/auth/screens/auth_screen.dart';
 import 'package:shop_easy_ecommerce/features/auth/screens/login_screen.dart';
+import 'package:shop_easy_ecommerce/features/seller/screens/products_screen.dart';
+import 'package:shop_easy_ecommerce/features/seller/screens/seller_screen.dart';
 import 'package:shop_easy_ecommerce/models/order.dart';
 import 'package:shop_easy_ecommerce/models/product.dart';
 import 'package:shop_easy_ecommerce/providers/seller_provider.dart';
 import 'package:http/http.dart' as http;
 
 class SellerServices {
-  void sellProducts({
+  Future<void> sellProducts({
     required BuildContext context,
     required String name,
     required String description,
@@ -65,7 +67,7 @@ class SellerServices {
           context: context,
           onSuccess: () {
             showSnackBar(context, "Product Added Succcessfully!!");
-            Navigator.pop(context);
+            Navigator.pushNamed(context, SellerScreen.routeName);
           });
     } catch (e) {
       print(e);

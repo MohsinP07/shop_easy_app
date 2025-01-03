@@ -33,7 +33,6 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     final user = context.watch<UserProvider>().user;
     final cartItems = user.cart;
-    // print(user.cart);
     int sum = 0;
     user.cart
         .map((e) => sum += e['quantity'] * e['product']['price'] as int)
@@ -117,13 +116,6 @@ class _CartScreenState extends State<CartScreen> {
                     showSnackBar(context,
                         'Cart is empty, Please add items in cart to continue.');
                   } else {
-                    // for (int i = 0; i < cartItems.length; i++) {
-                    //   final sellerIdForCartItem =
-                    //       cartItems[i]['product']['sellerId'];
-                    //   // Now you can use sellerIdForCartItem as needed for each item in the cart.
-                    //   print("Seller ID for item $i: $sellerIdForCartItem");
-                    // }
-
                     navigateToAddressScreen(sum);
                   }
                 },
@@ -132,22 +124,31 @@ class _CartScreenState extends State<CartScreen> {
                     : Colors.yellow.shade600,
               ),
             ),
-            SizedBox(
-              height: 15,
-            ),
+            SizedBox(height: 15),
             Container(
               color: Colors.black12.withOpacity(0.08),
               height: 1,
             ),
-            SizedBox(
-              height: 5,
-            ),
-            ListView.builder(
+            SizedBox(height: 5),
+            Container(
+              height: 200, // Set a fixed height for horizontal scrolling
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal, // Enable horizontal scrolling
                 itemCount: user.cart.length,
-                shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return CartProduct(index: index);
-                })
+                },
+              ),
+            ),
+            if (user.cart.isNotEmpty)
+              const Text(
+                "Scroll for more >>>",
+                style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontSize: 16,
+                    color: GlobalVariables.secondaryColor,
+                    fontWeight: FontWeight.w200),
+              )
           ],
         ),
       ),

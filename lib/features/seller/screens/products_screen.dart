@@ -9,6 +9,7 @@ import 'package:shop_easy_ecommerce/features/seller/widgets/shop_name_box.dart';
 import 'package:shop_easy_ecommerce/models/product.dart';
 
 class ProductsScreen extends StatefulWidget {
+  static const String routeName = 'seller-products-screen';
   const ProductsScreen({super.key});
 
   @override

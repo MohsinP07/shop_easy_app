@@ -25,6 +25,7 @@ class AuthService {
     required String phone,
     required String password,
     required String name,
+    required String country,
   }) async {
     try {
       User user = User(
@@ -34,11 +35,12 @@ class AuthService {
           phone: phone,
           password: password,
           address: '',
+          country: country,
           type: '',
           token: '',
           cart: [],
           wishlist: []);
-
+      print(country);
       http.Response res = await http.post(Uri.parse('$uri/api/signup'),
           body: user.toJson(),
           headers: <String, String>{
@@ -79,6 +81,7 @@ class AuthService {
             final user = Provider.of<UserProvider>(context, listen: false).user;
             await prefs.setString(
                 'x-auth-token', jsonDecode(res.body)['token']);
+            print(user.type);
             if (user.type == 'user') {
               Navigator.pushNamedAndRemoveUntil(
                   context, BottomBar.routeName, (route) => false);

@@ -22,6 +22,21 @@ class _ShopDetailsState extends State<ShopDetails> {
     String newShopLicenseNumber = seller.shopLicenseNumber;
     String newShopCategory = seller.shopCategory;
     String newShopOwnershipType = seller.shopOwnershipType;
+    String shopCategory = "Retail";
+    List<String> shopCategories = [
+      'Retail',
+      'Wholesale',
+      'Speciality Store',
+      'Online Retailer',
+      'Online Wholesaler',
+    ];
+    String ownership = "Proprietorship";
+    List<String> ownershipTypes = [
+      'Proprietorship',
+      'Partnership',
+      'One Person Company',
+      'Corporate Company',
+    ];
 
     final SellerService sellerServices = SellerService();
 
@@ -61,23 +76,123 @@ class _ShopDetailsState extends State<ShopDetails> {
                   },
                   decoration: InputDecoration(labelText: 'Shop License Number'),
                 ),
-                TextFormField(
-                  initialValue: newShopCategory,
-                  onChanged: (value) {
-                    setState(() {
-                      newShopCategory = value;
-                    });
-                  },
-                  decoration: InputDecoration(labelText: 'Shop Category'),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: DropdownButtonFormField<String>(
+                    value: shopCategory,
+                    decoration: InputDecoration(
+                      labelText: 'Shop Category',
+                      border: OutlineInputBorder(),
+                      isDense: true,
+                    ),
+                    onChanged: (String? newVal) {
+                      setState(() {
+                        shopCategory = newVal!;
+                        newShopCategory = shopCategory;
+                      });
+                    },
+                    items: shopCategories.map((String item) {
+                      IconData icon;
+                      Color color;
+
+                      switch (item) {
+                        case 'Retail':
+                          icon = Icons.shopping_bag;
+                          color = Colors.blue;
+                          break;
+                        case 'Wholesale':
+                          icon = Icons.other_houses_outlined;
+                          color = Colors.green;
+                          break;
+                        case 'Speciality Store':
+                          icon = Icons.folder_special_outlined;
+                          color = Colors.orange;
+                          break;
+                        case 'Online Retailer':
+                          icon = Icons.integration_instructions_rounded;
+                          color = Colors.blueGrey;
+                          break;
+                        case 'Online Wholesaler':
+                          icon = Icons.shopping_cart_checkout_outlined;
+                          color = Colors.brown;
+                          break;
+                        default:
+                          icon = Icons.error;
+                          color = Colors.red;
+                      }
+
+                      return DropdownMenuItem(
+                        value: item,
+                        child: Row(
+                          children: [
+                            Icon(icon, color: color),
+                            SizedBox(width: 10),
+                            Text(
+                              item,
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
                 ),
-                TextFormField(
-                  initialValue: newShopOwnershipType,
-                  onChanged: (value) {
-                    setState(() {
-                      newShopOwnershipType = value;
-                    });
-                  },
-                  decoration: InputDecoration(labelText: 'Shop Ownership Type'),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: DropdownButtonFormField<String>(
+                    value: ownership,
+                    decoration: InputDecoration(
+                      labelText: 'Shop Ownership Type',
+                      border: OutlineInputBorder(),
+                      isDense: true,
+                    ),
+                    onChanged: (String? newVal) {
+                      setState(() {
+                        ownership = newVal!;
+                        newShopOwnershipType = ownership;
+                      });
+                    },
+                    items: ownershipTypes.map((String item) {
+                      IconData icon;
+                      Color color;
+
+                      switch (item) {
+                        case 'Proprietorship':
+                          icon = Icons.person;
+                          color = Colors.blue;
+                          break;
+                        case 'Partnership':
+                          icon = Icons.people;
+                          color = Colors.green;
+                          break;
+                        case 'One Person Company':
+                          icon = Icons.person_2_rounded;
+                          color = Colors.orange;
+                          break;
+                        case 'Corporate Company':
+                          icon = Icons.corporate_fare;
+                          color = Colors.blueGrey;
+                          break;
+                        default:
+                          icon = Icons.error;
+                          color = Colors.red;
+                      }
+
+                      return DropdownMenuItem(
+                        value: item,
+                        child: Row(
+                          children: [
+                            Icon(icon, color: color),
+                            SizedBox(width: 10),
+                            Text(
+                              item,
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
                 ),
               ],
             ),

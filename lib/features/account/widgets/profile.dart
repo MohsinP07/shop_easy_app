@@ -23,6 +23,7 @@ class _ProfileState extends State<Profile> {
     String newName = user.name;
     String newAddress = user.address;
     String newPhone = user.phone;
+    String newCountry = user.country;
 
     final AccountServices accountServices = AccountServices();
 
@@ -35,37 +36,48 @@ class _ProfileState extends State<Profile> {
               deviceSize: MediaQuery.of(context).size,
               title: "Edit Profile",
               imagePath: "assets/images/edit_profile.png"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextFormField(
-                initialValue: newName,
-                onChanged: (value) {
-                  setState(() {
-                    newName = value;
-                  });
-                },
-                decoration: InputDecoration(labelText: 'Name'),
-              ),
-              TextFormField(
-                initialValue: newAddress,
-                onChanged: (value) {
-                  setState(() {
-                    newAddress = value;
-                  });
-                },
-                decoration: InputDecoration(labelText: 'Address'),
-              ),
-              TextFormField(
-                initialValue: newPhone,
-                onChanged: (value) {
-                  setState(() {
-                    newPhone = value;
-                  });
-                },
-                decoration: InputDecoration(labelText: 'Phone'),
-              ),
-            ],
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  initialValue: newName,
+                  onChanged: (value) {
+                    setState(() {
+                      newName = value;
+                    });
+                  },
+                  decoration: InputDecoration(labelText: 'Name'),
+                ),
+                TextFormField(
+                  initialValue: newAddress,
+                  onChanged: (value) {
+                    setState(() {
+                      newAddress = value;
+                    });
+                  },
+                  decoration: InputDecoration(labelText: 'Address'),
+                ),
+                TextFormField(
+                  initialValue: newCountry,
+                  onChanged: (value) {
+                    setState(() {
+                      newCountry = value;
+                    });
+                  },
+                  decoration: InputDecoration(labelText: 'Country'),
+                ),
+                TextFormField(
+                  initialValue: newPhone,
+                  onChanged: (value) {
+                    setState(() {
+                      newPhone = value;
+                    });
+                  },
+                  decoration: InputDecoration(labelText: 'Phone'),
+                ),
+              ],
+            ),
           ),
           actions: [
             ElevatedButton(
@@ -82,6 +94,7 @@ class _ProfileState extends State<Profile> {
                   newName,
                   newAddress,
                   newPhone,
+                  newCountry,
                 );
                 Navigator.pop(context);
                 showSnackBar(context, "Updated!");
@@ -97,6 +110,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context, listen: false).user;
+    print(user.country);
     final deviceSize = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
@@ -167,6 +181,26 @@ class _ProfileState extends State<Profile> {
                   validator: (val) {
                     if (val == null || val.isEmpty) {
                       return "Please enter your address";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                TextFormField(
+                  readOnly: true,
+                  initialValue: user.country,
+                  decoration: InputDecoration(
+                    label: Text("Country"),
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black38)),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black38)),
+                  ),
+                  validator: (val) {
+                    if (val == null || val.isEmpty) {
+                      return "Please enter your country";
                     }
                     return null;
                   },

@@ -11,8 +11,9 @@ authRouter.post('/api/signup', async (req, res) => {
 
     try {
         console.log("in");
-        const { name, email, password, phone } = req.body;
-
+        const { name, email, password, phone, country } = req.body;
+         console.log(req.body);
+            
         const existingUser = await User.findOne({ email }); // to find any one document in user collection with the same email property
 
         if (existingUser) {
@@ -27,7 +28,8 @@ authRouter.post('/api/signup', async (req, res) => {
             email,
             password: hashedPassword,
             name,
-            phone
+            phone,
+            country
         })
 
         user = await user.save();
@@ -46,9 +48,12 @@ authRouter.post('/api/signup', async (req, res) => {
 
 //SIGN IN ROUTE FOR USER
 authRouter.post('/api/signin', async (req, res) => {
-
+    console.log("dddd");
+    
     try {
         const { email, password } = req.body;
+        console.log(req.body);
+        
 
         const user = await User.findOne({ email });
         if (!user) {
@@ -79,10 +84,10 @@ authRouter.post('/api/signin', async (req, res) => {
 authRouter.put('/api/updateProfile', auth, async (req, res) => {
     try {
         const userId = req.user; // Get the user ID from the authenticated user
-        const { name, address, phone } = req.body; // Get the updated information
+        const { name, address, phone, country } = req.body; // Get the updated information
 
         // Update the user's information in the database
-        await User.findByIdAndUpdate(userId, { name, address, phone });
+        await User.findByIdAndUpdate(userId, { name, address, phone, country });
 
         res.json({ msg: "User information updated successfully" });
     } catch (e) {

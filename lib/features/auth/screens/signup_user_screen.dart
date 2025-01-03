@@ -31,12 +31,12 @@ class _SignUpUserState extends State<SignUpUser> {
 
   void signUpUser() {
     authService.signUpUser(
-      context: context,
-      email: _emailContoller.text,
-      phone: _phoneContoller.text,
-      password: _passwordContoller.text,
-      name: _nameContoller.text,
-    );
+        context: context,
+        email: _emailContoller.text,
+        phone: _phoneContoller.text,
+        password: _passwordContoller.text,
+        name: _nameContoller.text,
+        country: "");
   }
 
   @override

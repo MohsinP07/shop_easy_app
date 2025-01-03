@@ -32,6 +32,7 @@ class _SellerAddProductScreenState extends State<SellerAddProductScreen> {
   int count = 0;
   String sellerId = '';
   String sellerShopName = '';
+  bool isLoading = false;
 
   @override
   void didChangeDependencies() {
@@ -66,18 +67,30 @@ class _SellerAddProductScreenState extends State<SellerAddProductScreen> {
     'Fashion',
   ];
 
-  void sellProduct() {
+  void sellProduct() async {
     if (_addProductFormKey.currentState!.validate() && images.isNotEmpty) {
-      sellerServices.sellProducts(
-          context: context,
-          name: productNameController.text,
-          description: descriptionController.text,
-          price: double.parse(priceController.text),
-          quantity: double.parse(quantityController.text),
-          category: category,
-          images: images,
-          sellerId: sellerId,
-          sellerShopName: sellerShopName);
+      try {
+        setState(() {
+          isLoading = true;
+        });
+        showSnackBar(context, 'Adding product please wait');
+        await sellerServices.sellProducts(
+            context: context,
+            name: productNameController.text,
+            description: descriptionController.text,
+            price: double.parse(priceController.text),
+            quantity: double.parse(quantityController.text),
+            category: category,
+            images: images,
+            sellerId: sellerId,
+            sellerShopName: sellerShopName);
+      } catch (e) {
+        showSnackBar(context, e.toString());
+      } finally {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
@@ -176,12 +189,18 @@ class _SellerAddProductScreenState extends State<SellerAddProductScreen> {
                     height: 10,
                   ),
                   CustomTextField(
-                      controller: priceController, hintText: "Price"),
+                    controller: priceController,
+                    hintText: "Price",
+                    textInputType: TextInputType.number,
+                  ),
                   SizedBox(
                     height: 10,
                   ),
                   CustomTextField(
-                      controller: quantityController, hintText: "Quantity"),
+                    controller: quantityController,
+                    hintText: "Quantity",
+                    textInputType: TextInputType.number,
+                  ),
                   SizedBox(
                     height: 10,
                   ),
@@ -203,7 +222,9 @@ class _SellerAddProductScreenState extends State<SellerAddProductScreen> {
                   SizedBox(
                     height: 10,
                   ),
-                  CustomButton(text: "Sell", onTap: sellProduct)
+                  isLoading
+                      ? CircularProgressIndicator()
+                      : CustomButton(text: "Sell", onTap: sellProduct)
                 ],
               ),
             )),
