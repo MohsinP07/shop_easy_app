@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_easy_ecommerce/common/widgets/bottom_bar.dart';
 import 'package:shop_easy_ecommerce/constants/global_variables.dart';
@@ -13,7 +14,9 @@ import 'package:shop_easy_ecommerce/providers/seller_provider.dart';
 import 'package:shop_easy_ecommerce/providers/user_provider.dart';
 import 'package:shop_easy_ecommerce/router.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => UserProvider()),
     ChangeNotifierProvider(create: (context) => SellerProvider()),
